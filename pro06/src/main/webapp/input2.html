@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<form action="input2" name="frmInput" method="get">
+		아이디 : <input type="text" name="user_id"><br>
+		비밀번호 : <input type="password" name = "user_pw"><br>
+<!-- 
+	여러개의 input을 만들때 체크박스를 사용해 value 속성값을 설정하는 것이 좋음.
+	체크박스의 name 속성값은 모두 subject로 서블릿으로 요청할때 체크된 값들만 String 배열에 담고 request 객체에 저장 후 전송
+ -->
+		<input type="checkbox" name="subject" value="Java" checked>자바
+		<input type="checkbox" name="subject" value="C">C언어
+		<input type="checkbox" name="subject" value="Python">Python
+		<input type="checkbox" name="subject" value="TensorFlow">TensorFLow
+		<br><br>
+		<input type="submit" value="로그인">
+		<input type="reset" value="초기화">
+	</form>
+</body>
+</html>
