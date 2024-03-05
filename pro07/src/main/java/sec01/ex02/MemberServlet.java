@@ -1,4 +1,4 @@
-package sec01.ex01;
+package sec01.ex02;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 /*
 	역할 : 브라우저로부터 DB의 회원종보 조회 요청을 받아 클라이언트의 브라우저에 응답  
 */
-@WebServlet("/member")
+@WebServlet("/member2")
 public class MemberServlet extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

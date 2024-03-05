@@ -1,10 +1,5 @@
-package sec01.ex01;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+package sec01.ex02;
+import java.sql.*;
 import java.util.ArrayList;
 
 
@@ -22,8 +17,8 @@ public class MemberDAO {
 	//-----------------------------------------------------
 	// 위의 4가지 접속 정보를 이용해 오라클 DB와 연결을 맺은은 접속정보를 가지는 Connection객체를 저장할 참조변수 선언
 	private Connection con;
-	// DB와 연결 후 개발자가 만든 쿼리문을 DB에 전송해 실행할 역할을 하는 Statement실행객체의 주소를 저장할 참조 변수 선언
-	private Statement stmt;
+	// DB와 연결 후 개발자가 만든 쿼리문을 DB에 전송해 실행할 역할을 하는 PreparedStatement실행객체의 주소를 저장할 참조 변수 선언
+	private PreparedStatement pstmt;
 	// 만든 쿼리문을 실행해서 조회한 검색 결과를 테이블형식으로 임시로 저장할 ResultSet객체
 	private ResultSet rs;
 	// OracleDriver 클랫의 객체를 동적으로 생성해 DriverManager클래스의 변수에 저장(드라이버로딩)
@@ -38,7 +33,6 @@ public class MemberDAO {
 			// Class.forName(DRIVER)로 생성된 ORacleDriver 객체는 DriverManager클래스에 등록되어 있으므로
 			// 이 드라이버 역할을 하는 객체를 통해 MemberDAO와 오라클 DBMS서버의 테이블과 연결 맺은 정보를 가지는 T4CConnection객체를 얻을 수 있다
 			con = DriverManager.getConnection(URL,USER,PW);
-			stmt = con.createStatement();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e1) {
@@ -50,19 +44,19 @@ public class MemberDAO {
 	public ArrayList listMembers(){// <- 멤버서블릿에서 회원정보 조회를 위해 호출하는 메소드
 		ArrayList list = new ArrayList();
 		try {
-			//오라클 드라이버 로딩, Connection 객체 얻기, statement 실행 객체 얻기
+			//오라클 드라이버 로딩, Connection 객체 얻기
 			connDB();
 			// DB의 테이블 조회하는 쿼리문 작성
-			String query = "select * from t_member";
-//			String NewEmail= "h@gmai.com";
-//			String NewPwd = "1234";
-//			String query = "update t_member "+ "set email = '?', pwd = '?' " + "where id='hong'";
-//			pstmt.setString(1,NewEmail);
-//			pstmt.setString(2,NewPwd);
+			String query = "select * from t_member where id=?";
+			// Connection 객체의 prepareStatement메소드 호출 시 실행할 쿼리문을 매개변수로 전달하면 ? 를 제외한 문장을 
+			// preparedStatement객체에 저장후 객체 자체를 반환 
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, "hong");
 			// 쿼리문 전송
 			// 쿼리문의 결과를 임시로 저장하는 ResultSet객체의 참조변수 rs
 			// 조회된 화면의 커서위치는 가장 처음에는 조회된 테이블의 제목열 행을 가리키고 있음.
-			rs = stmt.executeQuery(query);
+			// 여기서는 preparedStatement를 사용하기 때문에 executeQeury()의 매개변수를 줄 필요가 없음
+			rs = pstmt.executeQuery();
 			// 커서가 테이블에서 한 행씩 내려가면서 조회가 되면 true 안되면 false 반환
 			// 조회한 회원 레코드들이 rs에 표형태로 저장됨, 계속 반복해서 레크드 단위의 조회된 열 값들을 
 			// MemberVO에 박아 넣는다. MemberVO 객를 ArrayList에 추가
@@ -86,13 +80,4 @@ public class MemberDAO {
 		return list; 
 	} 
 	
-	public void ResourceClose() {
-		try {
-			if(stmt != null) stmt.close();
-			if(rs != null) rs.close();
-			if(con != null) con.close();
-		}catch (Exception e) {
-			System.out.println("자원해제 실패 :" + e);
-		}
-	}
 }
