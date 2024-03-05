@@ -22,6 +22,7 @@ public class inputServlet extends HttpServlet {
 		for(String subject : userSubject) {
 			System.out.println("체크한 과목 명 : " + subject);
 		}
+		//인텔리제이 맞나
 	}
 
 
