@@ -26,5 +26,11 @@ public class MemberVO{
 	 public MemberVO() {
 		 System.out.println("MemberVO 기본생성자");
 	 }
+	 public MemberVO(String id, String pwd, String name, String email) {
+		 this.id =id;
+		 this.pwd = pwd;
+		 this.name = name;
+		 this.email= email;
+	 }
 	 
 }

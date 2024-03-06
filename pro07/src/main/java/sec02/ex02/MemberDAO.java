@@ -41,11 +41,11 @@ public class MemberDAO {
 			Connection con = dataSource.getConnection();
 			
 			// DB의 테이블 조회하는 쿼리문 작성
-			String query = "select * from t_member where id=?";
+			String query = "select * from t_member";
 			// Connection 객체의 prepareStatement메소드 호출 시 실행할 쿼리문을 매개변수로 전달하면 ? 를 제외한 문장을 
 			// preparedStatement객체에 저장후 객체 자체를 반환 
 			pstmt = con.prepareStatement(query);
-			pstmt.setString(1, "hong");
+			//pstmt.setString(1, "hong");
 			// 쿼리문 전송
 			// 쿼리문의 결과를 임시로 저장하는 ResultSet객체의 참조변수 rs
 			// 조회된 화면의 커서위치는 가장 처음에는 조회된 테이블의 제목열 행을 가리키고 있음.
@@ -73,5 +73,44 @@ public class MemberDAO {
 		}
 		return list; 
 	} 
+	// MemberVO객체를 인스턴스를 받아 Insert문장을 oracle로 쏴서 회원추가 하는 메소드
+	public void addMember(MemberVO vo) {
+		try {
+			//커넥션풀(dataSource)에서 미리 DB와 연결을 맺은 Connection 객체 얻음
+			con = dataSource.getConnection();
+			String id = vo.getId();
+			String pwd = vo.getPwd();
+			String name = vo.getName();
+			String email = vo.getEmail();
+			
+			//String query = "insert into t_member(id, pwd, name, email) values('"+id+"','"+pwd+"', '"+name+"', '"+email+"')";
+			// preparedStatement 이용
+			String query="insert into t_member(id, pwd, name, email)"+ " values(?,?,?,?)";
+			// query변수에 저장된 전체 insert문자열을 미리 로드한 OraclepreparedStatementWrapper객체
+			PreparedStatement pstmt = con.prepareStatement(query);
+			pstmt.setString(1, id);
+			pstmt.setString(2, pwd);
+			pstmt.setString(3, name);
+			pstmt.setString(4, email);
+			// joinDate는 sysdate로 따로 설정안해도 알아서 설정됨.
+			pstmt.executeUpdate();
+		}catch(Exception e) {
+			System.out.println("MemberDAO.addMember SQL 실행 오류 : " + e );
+		}
+	}
+
+	public void delMember(String id) {
+		try {
+			con = dataSource.getConnection();
+			String query = "delete from t_member where id=?";
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, id);
+			pstmt.executeUpdate();
+		}catch(Exception e) {
+			System.out.println("MemberDAO.delMember SQL 실행 오류 : " + e);
+		}
+	}
+
+	
 	
 }

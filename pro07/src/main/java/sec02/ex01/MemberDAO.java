@@ -41,11 +41,11 @@ public class MemberDAO {
 			Connection con = dataSource.getConnection();
 			
 			// DB의 테이블 조회하는 쿼리문 작성
-			String query = "select * from t_member";
+			String query = "select * from t_member where id=?";
 			// Connection 객체의 prepareStatement메소드 호출 시 실행할 쿼리문을 매개변수로 전달하면 ? 를 제외한 문장을 
 			// preparedStatement객체에 저장후 객체 자체를 반환 
 			pstmt = con.prepareStatement(query);
-			//pstmt.setString(1, "hong");
+			pstmt.setString(1, "hong");
 			// 쿼리문 전송
 			// 쿼리문의 결과를 임시로 저장하는 ResultSet객체의 참조변수 rs
 			// 조회된 화면의 커서위치는 가장 처음에는 조회된 테이블의 제목열 행을 가리키고 있음.
@@ -73,27 +73,5 @@ public class MemberDAO {
 		}
 		return list; 
 	} 
-	
-	public void addMember(MemberVO memberVO) {
-		try {
-			con = dataSource.getConnection();
-			String id = memberVO.getId();
-			String pwd = memberVO.getPwd();
-			String name = memberVO.getName();
-			String email = memberVO.getEmail();
-			String query = "insert into t_member";
-			query += " (id,pwd,name,email)";
-			query += " values(?,?,?,?)";
-			pstmt = con.prepareStatement(query);
-			pstmt.setString(1, id);
-			pstmt.setString(2, pwd);
-			pstmt.setString(3, name);
-			pstmt.setString(4, email);
-			pstmt.executeUpdate();
-			
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-	}
 	
 }

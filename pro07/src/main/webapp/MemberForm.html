@@ -3,16 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<script type="text/javascript">
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<script type="text/javascript">
 	function fn_sendMember() {
+		let idInput = $("input[name='id']");
+		let idVal = idInput.val();
+		let pwdInput = $("input[name='pwd']");
 		let frmMember = document.frmMember;
 		let id = frmMember.id.value;
-		let pwd = frmMember.pwd,value;
+		let pwd = frmMember.pwd.value;
 		let name = frmMember.name.value;
 		let email = frmMember.email.value;
 		if(id.length==0 || id==""){
 			alert("아이디는 필수");
-		}else if(pwd.length == 0 || pwd==""){
+		}else if(pwd.length == 0 || pwd == ""){
 			alert("비밀번호는 필수");
 		}else if(name.length == 0 || name==""){
 			alert("이름은 필수");
@@ -20,7 +24,7 @@
 			alert("이메일은 필수");
 		}else{
 			frmMember.method="post";
-			frmmember.action="member4";
+			frmMember.action="member4";
 			frmMember.submit();
 		}
 	}
@@ -50,7 +54,7 @@
 		<input type="button" value="가입하기" onclick="fn_sendMember()">
 		<input type="reset" value="다시입력">
 		<input type="hidden" name="command" value="addMember">
-		
+	
 		
 	</form>
 </body>
