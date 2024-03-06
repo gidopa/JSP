@@ -1,0 +1,33 @@
+서블릿 포워드 기능?
+- 하나의 서블릿에서 다르 서블릿이나 JSP를 재요청하는 기능.
+첫번째 서블릿 요청에 대한 추가작업을 다른 서블릿이 수행하게 하기 위해 포워드함
+첫번째 서블릿에 요청된 데이터들을 다른 서블릿에 포워딩해 데이터를 공유
+JSP MVC패턴 개발(모델2)시 서블릿에서 JSP를 재요청해 클라이언트의 웹브라우저로 응답할 데이터를 공유할 목적
+
+서블릿 포워딩 방법
+1. response객체의 sendRedirect() 메소드 호출
+문법
+	response.sendRedirect("재요청할 서블릿 또는 JSP 주소")
+	
+	첫번째 서블릿에서 두번째 서블릿을 포워딩할떄 두번째 서블릿 재요청 주소가 웹브라우저로 주소창에 적히면서 get요청 떄려줌
+	sec01.ex01 
+	sec02.ex01 
+2. response객체의 addHeader() 메소드
+문법
+	response.addHeader("Refresh","휴식시간(초);url=요청할 서블릿 또는 JSP" )
+	
+	첫번째 서블릿에서 두번째 서블릿을 포워딩할떄 휴식시간만큼 쉬고  두번째 서블릿 재요청 주소가 웹브라우저로 주소창에 적히면서 get요청 떄려줌
+	sec01.ex02
+3. 자바스크립트에서 location 객체의 href속성을 이용
+문법
+	location.href = "재요청할 서블릿 경로 또는 JSP 경로"
+	
+참고. 위의 재요청 기술들은 2번쨰 서블릿을 재요청할떄 브라우저의 주소를 거쳐 재요청
+RequestDispatcher객체의 forward(request,response)메소드
+문법
+	RequestDispatcher rd = request.getRequestDispatcher("재요청할 서버페이지 주소");
+	rd.forward(request,response);
+	
+	서버에서 바로 포워딩 해준다. 재요청시 대량의 데이터를 공유할 수 있음
+	sec02.ex02
+
