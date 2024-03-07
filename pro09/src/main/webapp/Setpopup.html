@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+	function setPopUpStart(input){
+		//체크박스가 체크되면 쿠키 생성해서 던져줌 
+		if(input.checked == true){
+			let expireDate = new Date();
+			//쿠키 유효시간
+			let days =1 ;
+			//현재날짜에 하루 더한 시간을 설정
+			expireDate.setDate(expireDate.getDate() + days);
+			//오늘 더 이상 팝업창을 나타내지 않기를 체크하면 , notShowPop쿠키값을 true로 설정해 재접속시 팝업창을 띄우지 않음
+			document.cookie = "notShowPop=true; path=/; expires="+expireDate.toGMTString();
+			window.close();
+		}
+	}
+</script>
+</head>
+<body>
+	알림팝업창
+	<br><br><br><br><br><br>
+	<form action="">
+	<!-- 팝업창 하루 띄우지않기 체크박스 생성하고, 체크시 setPopUpStart 함수 호출 -->
+	<input type="checkbox" onclick="setPopUpStart(this)" >팝업창 띄우지 않기
+	</form>
+</body>
+</html>

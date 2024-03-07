@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+	//브라우저가 html 태그를 모두 로딩했을때
+	window.onload = pageLoad();
+	function pageLoad() {
+		// 쿠키값을 얻어옴
+		let notShowPop = getCookieValue();
+		if (notShowPop != "true") {
+			//팝업창 띄움
+			window.open("Setpopup.html", "pop",
+							"width=400, height=500, resizeable=no, status=no, scrollbar=yes, menubar=no");
+		}
+	}
+
+	function getCookieValue() {
+		let result = "false";
+		if (document.cookie != "") {
+			// document객체의 cookie 속성으로 쿠키 정보를 문자열로 가져온 후
+			// ;을 구분자로 분리 
+			cookie = document.cookie.split(";");
+			for (let i = 0; i < cookie.length; i++) {
+				element = cookie[i].split("=");
+				value = element[0];
+				//정규식을 이용해 쿠키 이름 문자열의 공백(\s)을 제거
+				value = value.replace(/^\s*/, '');
+				if (value == "notShowPop") {
+					// 해당 쿠키값을 가져와 반환
+					result = element[1];
+				}
+			}
+		}
+		return result;
+	}
+	
+	function deleteCookie(){
+		document.cookie = "notShowPop = 'false';path=/;expires=-1";
+	}
+</script>
+</head>
+<body>
+	<!-- 쿠키 삭제 버튼을 생성, 클릭시 deleteCoolie 함수 호출 -->
+	<input type="button" value="쿠키삭제" onclick="deleteCookie()">
+
+</body>
+</html>

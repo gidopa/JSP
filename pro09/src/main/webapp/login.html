@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<!-- 
+	login.html파일 설명
+	클라이언트가 브라우저를 이용해 로그인 요청하는 디자인 화면 파일
+	폼태그의 여러가지 속성과 기능에 대한 설명
+	
+	action - form태그 내부의 입력태그들에 입력한 요청정보들을 서버페이지로 
+			 요청전송할때 서버페이지의 주소 경로를 지정하는 속성
+	name - form태그의 이름을 지정, 여러개의 폼태그를 만들 경우 하나를 식별하기 위해 작성
+		   또한 js 문법으로 form태그를 선택할때 name속성에 대한 값을 이용해서 선택해 올 수 있음. document.loginForm
+	method - form태그 내부에 입력한 데이터를 서버페이지로 전송할때 전송방법을 지정하는 속성
+			 get : 서블릿에 데이터를 요청할때 요청할 데이터가 요청할주소(URL)뒤에 name=value 형태로 노출되어 전송
+			 	   보안에 취약함. 기본 전송 방식, 사용이 쉽다, method속성의 default 값임
+			 	   서블릿에서는 doGet()메서드에서 요청 전송된 데이터를 받아서 처리, 서버페이지로 전송할 데이터량이 적고 간단한 정보를 전달할 떄 사용
+			 	   데이터에 민감한 정보가 포함될떄에는 부적합. 전송 데이터 크기가 정해져 있습니다.
+			 post : 데이터를 http요청 본문에 포함하여 전송하는 방법. 이때 데이터는 요청 헤더와 별도로 전달되며, 브라우저 주소창에 요청데이터가 표시 되지 않음
+			 		대용량의 데이터 전송 및 민감한 정보 전달에 적합, get의 제한 사항을 극복할 수 있음.
+			 		post 전송방식은 데이터 전송이 상대적으로 느리고 복잡한 구조일 수 있으나, 보안성이 좋음
+			 		서븦릿 페이지에서 doPost()메소드에서 요청 전송된 데이터를 받아서 처리
+	encType - 파일 업로드 요청을 서버페이지로 할때 값으로 multipart/form-data로 설정해야함
+ -->
+<body>
+<!-- http://localhost:8081/pro06/login 매핑주소가 login-->
+	<form action="login" name="loginForm" method="post" >
+	아이디 : <input type="text" name="user_id"><br>
+	비밀번호 : <input type="password" name = "user_pw"><br>
+	<input type="hidden" name ="user_address" value="서울시 성북구">
+	<input type="hidden" name ="user_email" value="test@gmail.com">
+	<input type="hidden" name ="user_hp" value="010-1111-2222">
+	
+	<!-- 입력한 아이디와 비밀번호를 서버퍼이지로 전송 요청할 전송버튼 한쌍의 폼 태그안에는 submit이 딱 하나만 있어야 함-->
+	<input type="submit" value="로그인">
+	<!-- 입력한 아이디와 비밀번호를 초기화할 버튼 -->
+	<input type="reset" value="초기화">
+	</form>
+	
+</body>
+</html>
