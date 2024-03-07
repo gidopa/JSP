@@ -3,7 +3,6 @@ package sec06.ex01;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import javax.servlet.GenericServlet;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
@@ -23,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 				@WebInitParam(name = "email", value = "admin@jweb.com"), 
 				@WebInitParam(name = "tel", value = "010-1111-2222")
 		})
-public class initParamServlet extends HttpServlet {
+public class InitParamServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter out = response.getWriter();
