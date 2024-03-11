@@ -170,7 +170,7 @@
  -->
 
       
-      <Context docBase="pro10-JSP" path="/pro10-JSP" reloadable="true" source="org.eclipse.jst.jee.server:pro10-JSP"/></Host>
+      <Context docBase="pro10-JSP" path="/pro10-JSP" reloadable="true" source="org.eclipse.jst.jee.server:pro10-JSP"/><Context docBase="pro11" path="/pro11" reloadable="true" source="org.eclipse.jst.jee.server:pro11"/></Host>
     </Engine>
   </Service>
 </Server>
