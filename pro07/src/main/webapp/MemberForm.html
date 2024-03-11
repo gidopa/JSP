@@ -31,7 +31,7 @@
 </script>
 </head>
 <body>
-	<form name="frmMember">
+	<form action="member.jsp" method="post">
 		<table>
 			<th>회원 가입창</th>
 			<tr>
@@ -51,7 +51,7 @@
 			<td><input type="text" name="email"></td>
 			</tr>
 		</table>
-		<input type="button" value="가입하기" onclick="fn_sendMember()">
+		<input type="button" value="가입하기" >
 		<input type="reset" value="다시입력">
 		<input type="hidden" name="command" value="addMember">
 	
