@@ -11,13 +11,18 @@
 </head>
 <body>
 <h1>아이디를 입력해주세요.</h1>
-	<form name="frmLogin" method="post" action="result.jsp" encType="utf-8">
+	<form name="frmLogin" method="post" action="memberForm.jsp" encType="utf-8">
 		아이디 : <input type="text" name="user_id"><br> 
 		비밀번호 : <input type="password" name="user_pw"><br>
 		<input type="submit" value="로그인"> 
 		<input type="reset" value="다시입력">
 	</form>
 	<br><br>
+	<a href="http://localhost:8081/pro14/memberForm.jsp">회원가입</a>
+	
+	<a href="<%=request.getContextPath()%>/memberForm.jsp">회원가입</a>
+	
+	<a href="${pageContext.request.contextPath}/memberForm.jsp"></a>
 	<%--
 		EL 표현언어에서 제공해주는 pageContext내장객체 
 		- pageContext내장객체는 javax.servlet.jsp.pageContext클래스를 상속해
@@ -29,6 +34,9 @@
 		  자바의 request객체의 getContextPath 메소드를 호출해 클라이언트가 요청한 전체 URL 중에서 컨텍스트 주소 /pro14만얻어
 		  <a>태그의 href속성에 작성해서 사용하는 방법
 		  <a href="<%=request.getContextPath()%>"></a>
+		  
+		  EL문법에서 제공하는 pageContext객체의 변수 pageContext를 이용해 Context주소를 알 수 있다
+		  
 	 --%>
 </body>
 </html>
