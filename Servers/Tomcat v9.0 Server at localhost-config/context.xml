@@ -23,9 +23,11 @@
     <WatchedResource>${catalina.base}/conf/web.xml</WatchedResource>
 
     <!-- Uncomment this to disable session persistence across Tomcat restarts -->
+    <!--
     <Manager pathname="" />
-    <!-- 톰캣서버가 실행될 때 커넥션풀 역할을 하는 datasource클래스의 객체생성 구문 설정 -->
-    <!-- Resource태그의 속성
+    -->
+    
+      <!-- Resource태그의 속성
     	name = MemberDAO클래스에서 DataSource를 가져다 사용할 JNDI기술의 이름
     	auth = 이 DataSource커넥션풀 객체 자원을 실행할 인증주체 톰캣서버
     	type = 커넥션풀 자원 이름
@@ -48,5 +50,4 @@
      	maxActive = "50"
      	maxWait = "-1"
      />
-     
 </Context>

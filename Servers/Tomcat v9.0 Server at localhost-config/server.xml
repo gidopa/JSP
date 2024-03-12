@@ -169,8 +169,7 @@
 	<Context path="/webMal" docBase="C:\webShop" reloadable="true"/>
  -->
 
-      
-      <Context docBase="pro13" path="/pro13" reloadable="true" source="org.eclipse.jst.jee.server:pro13"/><Context docBase="pro14" path="/pro14" reloadable="true" source="org.eclipse.jst.jee.server:pro14"/></Host>
+      <Context docBase="pro14___" path="/pro14___" reloadable="true" source="org.eclipse.jst.jee.server:pro14___"/></Host>
     </Engine>
   </Service>
 </Server>
