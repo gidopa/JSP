@@ -1,6 +1,5 @@
 <%@page import="sec01.ex01.MemberBean"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%
@@ -33,10 +32,16 @@
 			</tr>
 	<%-- EL로 MemberBean 객체의 각 변수에 저장된 값을 얻어 출력 --%>
 	<tr>
-		<td>${bean.id }</td>
-		<td>${bean.pwd }</td>
-		<td>${bean.name }</td>
-		<td>${bean.email }</td>
+		<td>${list[0].id }</td>
+		<td>${list[0].pwd }</td>
+		<td>${list[0].name }</td>
+		<td>${list[0].email }</td>
+	</tr>	
+	<tr>
+		<td>${list[1].id }</td>
+		<td>${list[1].pwd }</td>
+		<td>${list[1].name }</td>
+		<td>${list[1].email }</td>
 	</tr>	
 		    <tr height="1" bgcolor="green">
 		   		<td colspan="5"></td>

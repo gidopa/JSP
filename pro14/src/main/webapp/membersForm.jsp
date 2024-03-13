@@ -8,7 +8,7 @@
 </head>
 <body>
 	<!-- 입력한 가입할 회원정보들을 모두 request객체 메모리에 담아  member.jsp로 전송해 가입요청함 -->
-	<form action="member1.jsp" method="post">
+	<form action="member7.jsp" method="post">
 		<h1 style="text-align:center">회원 가입창</h1>	
 		<table align="center">
 			<tr>
