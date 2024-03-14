@@ -40,6 +40,20 @@
     </orderEntry>
     <orderEntry type="library" exported="" scope="PROVIDED" name="Tomcat 9.0.85" level="application_server_libraries" />
     <orderEntry type="library" exported="" name="taglibs-standard-compat-1.2.5" level="project" />
+    <orderEntry type="library" exported="" name="xalan-2.7.2" level="project" />
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../pro13/src/main/webapp/WEB-INF/lib/ojdbc6.jar!/" />
+          <root url="jar://$MODULE_DIR$/../pro13/src/main/webapp/WEB-INF/lib/tomcat-dbcp-7.0.30.jar!/" />
+          <root url="file://$USER_HOME$/IdeaProjects/web" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="file://$USER_HOME$/IdeaProjects/web/out/artifacts/pro14_Web_exploded/src/main/java" />
+        </SOURCES>
+      </library>
+    </orderEntry>
   </component>
   <component name="SonarLintModuleSettings">
     <option name="uniqueId" value="84a7fde3-104a-45fb-9421-cd7a0d3fea59" />

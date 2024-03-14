@@ -13,7 +13,6 @@
     dataList.add("Hello");
     dataList.add("World");
     dataList.add("안녕하세요");
-
 %>
 <%-- JSTL c:forEach에서 EL ${}을 사용할 수 있도록 list변수에 위 ArrayList를 저장--%>
 <c:set var="list" value="<%=dataList%>"/>

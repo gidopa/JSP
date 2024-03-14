@@ -37,19 +37,19 @@
 			<td width="11%">이메일</td>
 			</tr>
 	<%-- EL로 MemberBean 객체의 각 변수에 저장된 값을 얻어 출력 --%>
-	<tr align="cneter">
+	<tr align="center">
 		<td>${membersMap.id }</td>
 		<td>${membersMap.pwd }</td>
 		<td>${membersMap.name }</td>
 		<td>${membersMap.email }</td>
 	</tr>
-		<tr align="cneter">
+		<tr align="center">
 			<td>${list[0].id }</td>
 			<td>${list[0].pwd }</td>
 			<td>${list[0].name }</td>
 			<td>${list[0].email }</td>
 		</tr>
-		<tr align="cneter">
+		<tr align="center">
 			<td>${list[1].id }</td>
 			<td>${list[1].pwd }</td>
 			<td>${list[1].name }</td>
