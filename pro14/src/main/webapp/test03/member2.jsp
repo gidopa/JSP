@@ -1,4 +1,4 @@
-<%@ page import="sec01.ex01.MemberBean" %>
+<%@ page import="sec01.ex01.MemberVO" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 		 pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -8,13 +8,13 @@
 <jsp:useBean id="membersList" class="java.util.ArrayList"/>
 <jsp:useBean id="membersMap" class="java.util.HashMap"/>
 <%
-	membersMap.put("id","park");
+membersMap.put("id","park");
 	membersMap.put("pwd","1234");
 	membersMap.put("name","박지성");
 	membersMap.put("email","park@test.com");
 
-	MemberBean m1 = new MemberBean("son","1234","손흥민","son@test.com");
-	MemberBean m2 = new MemberBean("ki","1234","기성용","ki@test.com");
+	MemberVO m1 = new MemberVO("son","1234","손흥민","son@test.com");
+	MemberVO m2 = new MemberVO("ki","1234","기성용","ki@test.com");
 
 	membersList.add(m1);
 	membersList.add(m2);

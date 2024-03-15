@@ -1,4 +1,4 @@
-<%@page import="sec01.ex01.MemberBean"%>
+<%@page import="sec01.ex01.MemberVO"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -8,10 +8,10 @@
 <jsp:useBean id="list" class="java.util.ArrayList"></jsp:useBean>
 
 <%--2,3 요청한 값을 얻어 memberBean에 담는다 --%>
-<jsp:useBean id="bean" class="sec01.ex01.MemberBean"></jsp:useBean>
+<jsp:useBean id="bean" class="sec01.ex01.MemberVO"></jsp:useBean>
 <jsp:setProperty property="*" name="bean"/>
 <%
-	MemberBean mb2 = new MemberBean("son", "1234", "손흥민", "son@test.com");
+MemberVO mb2 = new MemberVO("son", "1234", "손흥민", "son@test.com");
 	list.add(mb2);
 	list.add(bean);
 %>

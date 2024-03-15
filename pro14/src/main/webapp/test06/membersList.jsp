@@ -60,11 +60,11 @@
 		<c:otherwise>
 			<c:forEach items="${list}">
 				<tr align="center">
-					<td width="7%">${memberbean.id}</td>
-					<td width="7%">${memberbean.pwd}</td>
-					<td width="7%">${memberbean.name}</td>
-					<td width="7%">${memberbean.email}</td>
-					<td width="7%">${memberbean.joinDate}</td>
+					<td width="7%">${member.id}</td>
+					<td width="7%">${member.pwd}</td>
+					<td width="7%">${member.name}</td>
+					<td width="7%">${member.email}</td>
+					<td width="7%">${member.joinDate}</td>
 				</tr>
 			</c:forEach>
 		</c:otherwise>

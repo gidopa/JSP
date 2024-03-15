@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" isELIgnored="false"%>
 <%-- useBean 액션태그 MemberBean클래스의 객체 생성 --%>
-<jsp:useBean id="m1" class="sec01.ex01.MemberBean" scope="page"></jsp:useBean>
+<jsp:useBean id="m1" class="sec01.ex01.MemberVO" scope="page"></jsp:useBean>
 <%-- setProperty 액션태그 값 설정 --%>
 <jsp:setProperty name="m1" property="name" value="이순신"/>
 <%-- useBean액션태그로 ArrayList에 넣는다 --%>

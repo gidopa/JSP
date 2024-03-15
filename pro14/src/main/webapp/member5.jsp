@@ -1,4 +1,4 @@
-<%@page import="sec01.ex01.MemberBean"%>
+<%@page import="sec01.ex01.MemberVO"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -8,22 +8,21 @@
 <jsp:useBean id="membersList" class="java.util.ArrayList"></jsp:useBean>
 <jsp:useBean id="map" class="java.util.HashMap"></jsp:useBean>
 <%
-	//HashMap 객체에 key, value 한쌍형태의 데이터 저장
+//HashMap 객체에 key, value 한쌍형태의 데이터 저장
 	map.put("id", "park2");
 	map.put("pwd", "4321");
 	map.put("name", "박지성");
 	map.put("email", "park@test.com");
 %>
 <%--2,3 요청한 값을 얻어 memberBean에 담는다 --%>
-<jsp:useBean id="bean" class="sec01.ex01.MemberBean"></jsp:useBean>
+<jsp:useBean id="bean" class="sec01.ex01.MemberVO"></jsp:useBean>
 <jsp:setProperty property="*" name="bean"/>
 <%
-	MemberBean mb2 = new MemberBean("son", "1234", "손흥민", "son@test.com");
+MemberVO mb2 = new MemberVO("son", "1234", "손흥민", "son@test.com");
 	membersList.add(mb2);
 	membersList.add(bean);
 	// HashMap 내부에 ArrayList 배열 추가
 	map.put("membersList",membersList);
-	
 %>
 <!DOCTYPE html>
 <html>

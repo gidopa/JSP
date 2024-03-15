@@ -1,12 +1,14 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.lang.reflect.Member" %>
-<%@ page import="sec01.ex01.MemberBean" %>
+<%@ page import="sec01.ex01.MemberVO" %>
 <%@ page import="java.util.HashMap" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%request.setCharacterEncoding("utf-8");%>
+<%
+request.setCharacterEncoding("utf-8");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,10 +18,10 @@
 <body>
     <h1>List에 값 저장 후 c:forEach 돌리기</h1>
     <%
-        List<MemberBean> lists = new ArrayList<>();
-        lists.add(new MemberBean("son", "1234", "손흥민", "son@test.com"));
-        lists.add(new MemberBean("park", "1234", "박지성", "park@test.com"));
-        lists.add(new MemberBean("ki", "1234", "기성용", "ki@test.com"));
+    List<MemberVO> lists = new ArrayList<>();
+            lists.add(new MemberVO("son", "1234", "손흥민", "son@test.com"));
+            lists.add(new MemberVO("park", "1234", "박지성", "park@test.com"));
+            lists.add(new MemberVO("ki", "1234", "기성용", "ki@test.com"));
     %>
 <c:set var="list" value="<%=lists%>" scope="page"/>
 <ul>
@@ -31,10 +33,10 @@
 </ul>
     <h1>Map에 돌리기</h1>
 <%
-    HashMap<String,MemberBean> maps = new HashMap<>();
-    maps.put("1",new MemberBean("son", "1234", "손흥민", "son@test.com"));
-    maps.put("2",new MemberBean("park", "1234", "박지성", "park@test.com"));
-    maps.put("3",new MemberBean("ki", "1234", "기성용", "ki@test.com"));
+HashMap<String,MemberVO> maps = new HashMap<>();
+    maps.put("1",new MemberVO("son", "1234", "손흥민", "son@test.com"));
+    maps.put("2",new MemberVO("park", "1234", "박지성", "park@test.com"));
+    maps.put("3",new MemberVO("ki", "1234", "기성용", "ki@test.com"));
 %>
 <c:set var="map" value="<%=maps%>"/>
     <ul>

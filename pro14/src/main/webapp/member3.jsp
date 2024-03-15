@@ -4,7 +4,7 @@
     request.setCharacterEncoding("utf-8");
     %>
 <%--2,3 요청한 값을 얻어 memberBean에 담는다 --%>
-<jsp:useBean id="bean" class="sec01.ex01.MemberBean"></jsp:useBean>
+<jsp:useBean id="bean" class="sec01.ex01.MemberVO"></jsp:useBean>
 <jsp:setProperty property="*" name="bean"/>
 <!DOCTYPE html>
 <html>

@@ -1,15 +1,15 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="sec01.ex01.MemberBean" %>
+<%@ page import="sec01.ex01.MemberVO" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
-    request.setCharacterEncoding("utf-8");
+request.setCharacterEncoding("utf-8");
     List memberList = new ArrayList();
-    MemberBean m1 = new MemberBean("son","1234", "손흥민","son");
-    MemberBean m2 = new MemberBean("ki","1234", "기성용","ki");
-    MemberBean m3 = new MemberBean("park","1234", "박지성","park");
+    MemberVO m1 = new MemberVO("son","1234", "손흥민","son");
+    MemberVO m2 = new MemberVO("ki","1234", "기성용","ki");
+    MemberVO m3 = new MemberVO("park","1234", "박지성","park");
     memberList.add(m1);
     memberList.add(m2);
     memberList.add(m3);
