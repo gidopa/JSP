@@ -1,0 +1,27 @@
+package sec02.ex02;
+
+import java.util.Date;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class MemberVO {
+	private String id;
+	private String pwd;
+	private String name;
+	private String email;
+	private Date joinDate;
+	
+	
+	public MemberVO() {
+	}
+	
+	public MemberVO(String id, String pwd, String name, String email) {
+		this.id = id;
+		this.pwd = pwd;
+		this.name = name;
+		this.email = email;
+	}
+}

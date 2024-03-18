@@ -1,4 +1,4 @@
-package sec01.ex02;
+package sec02.ex02;
 
 import java.io.IOException;
 import java.util.List;
@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 //1. 회원조회 요청을 받음 /member/listMembers.do
 //2. 회원가입 입력 디자인 화면 요청 주소 /member/memberForm.do
 //3. 회원정보를 DB의 테이블에 추가 해줘 /member/addMember.do
-//@WebServlet("/member/*")
+@WebServlet("/member/*")
 public class MemberController extends HttpServlet {
 	MemberDAO memberDAO;
 //	String nextPage;
@@ -40,15 +40,16 @@ public class MemberController extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		String action = request.getPathInfo();
 		System.out.println(action); ///listMembers.do
+		
 		String nextPage = null;
 		
 		if( (action == null) || action.equals("/listMembers.do") ) {
 			List<MemberVO> membersList = memberDAO.listMembers();
 			request.setAttribute("list", membersList);
-			nextPage = "/test02/listMembers.jsp";
+			nextPage = "/test03/listMembers.jsp";
 //			listMember(request,response);
 		}else if(action.equals("/memberForm.do")){
-			nextPage = "/test02/membersForm.jsp";
+			nextPage = "/test03/membersForm.jsp";
 		}else if(action.equals("/addMember.do")) {
 			/*
 			 * String id = request.getParameter("id"); String pwd =
@@ -58,7 +59,29 @@ public class MemberController extends HttpServlet {
 			createVO(request,response);
 //			MemberVO memVo = new MemberVO(id,pwd,name,email);
 //			memberDAO.addMember(memVo);
+			request.setAttribute("msg", "addMember");
 			memberDAO.addMember(createVO(request,response));
+			nextPage = "/member/listMembers.do";
+		}else if(action.equals("/modMemberForm.do")) {
+			String id = request.getParameter("id");
+			MemberVO memInfo = memberDAO.findMember(id);
+			request.setAttribute("memInfo", memInfo);
+			nextPage = "/test03/modMemberForm.jsp";
+		}else if (action.equals("/modMember.do")) {
+			String id = request.getParameter("id");
+			String pwd = request.getParameter("pwd");
+			String name = request.getParameter("name");
+			String email = request.getParameter("email");
+			
+			MemberVO memberVO = new MemberVO(id,pwd,name,email);
+			memberDAO.modMember(memberVO);
+			
+			request.setAttribute("msg", "modified");
+			nextPage = "/member/listMembers.do";
+		}else if(action.equals("/delMemberForm.do")) {
+			String id = request.getParameter("id");
+			memberDAO.delMember(id);
+			request.setAttribute("msg", "delMember");
 			nextPage = "/member/listMembers.do";
 		}
 		
