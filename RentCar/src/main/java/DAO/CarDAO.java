@@ -244,14 +244,16 @@ public class CarDAO {
 					+ "where non_orderid=? and memberpass=?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, request.getParameter("carbegindate"));
-			pstmt.setString(1, request.getParameter("carbegindate"));
-			pstmt.setString(3, request.getParameter("carbegindate"));
-			pstmt.setString(4, request.getParameter("carbegindate"));
-			pstmt.setString(5, request.getParameter("carbegindate"));
-			pstmt.setString(6, request.getParameter("carbegindate"));
-			pstmt.setString(7, request.getParameter("carbegindate"));
-			pstmt.setString(8, request.getParameter("carbegindate"));
-			pstmt.setString(9, request.getParameter("carbegindate"));
+			pstmt.setInt(2, Integer.parseInt(request.getParameter("carreserveday")));
+			pstmt.setInt(3, Integer.parseInt(request.getParameter("carins")));
+			pstmt.setInt(4, Integer.parseInt(request.getParameter("carbabyseat")));
+			pstmt.setInt(5, Integer.parseInt(request.getParameter("carwifi")));
+			pstmt.setInt(6, Integer.parseInt(request.getParameter("carnave")));
+			pstmt.setInt(7, Integer.parseInt(request.getParameter("carqty")));
+			pstmt.setInt(8, Integer.parseInt(request.getParameter("orderid")));
+			pstmt.setString(9, request.getParameter("memberpass"));
+			//업데이트에 성공하면 성공한 레코드 개수 1반환 실패하면 0 반환
+			result = pstmt.executeUpdate();
 		}catch(Exception e){
 			e.printStackTrace();
 		}finally {
@@ -259,6 +261,25 @@ public class CarDAO {
 		}
 		
 		return result;
+	}
+
+	public int deleteOrder(int orderid, String memberpass) {
+		int res = 0;
+		try {
+		con = dataSource.getConnection();
+		String sql = "delete from non_carorder where non_orderid=? and memberpass=?";
+		pstmt = con.prepareStatement(sql);
+		pstmt.setInt(1, orderid);
+		pstmt.setString(2,memberpass);
+		res = pstmt.executeUpdate();
+		
+		}catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			resourceRelease();
+		}
+		return res;
+		
 	}
 
 

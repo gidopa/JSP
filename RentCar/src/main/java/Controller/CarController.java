@@ -191,7 +191,53 @@ public class CarController extends HttpServlet {
 			request.setAttribute("center", "CarConfirmUpdate.jsp");
 			nextPage="/CarMain.jsp";	
 		}else if(action.equals("/updatePro.do")) {
-			int result = carDAO.carOrderUpdate(request);
+			int result = carDAO.carOrderUpdate(request); 
+			PrintWriter pw = response.getWriter();
+			if(result == 1) {
+				pw.print("<script>");
+				pw.print("alert('예약 수정 성공.');");
+				pw.print("location.href='"+request.getContextPath()+
+						"/Car/update.do?orderid="+request.getParameter("orderid") +"&carimg="+
+						request.getParameter("carimg")+"&memberpass="+request.getParameter("memberpass")+
+						"&memberphone="+request.getParameter("memberphone")+"';");
+				pw.print("</script>");
+				return;
+			}else {
+				pw.print("<script>");
+				pw.print("alert('예약 수정 실패.');");
+				pw.print("history.back();");
+				pw.print("</script>");
+				return ;
+			}
+		}else if(action.equals("/delete.do")) {
+			//예약 취소를 위해 비밀번호를 입력할 화면의 경로
+			String center = request.getParameter("center");
+			request.setAttribute("center", center);
+			nextPage = "/CarMain.jsp";
+		}else if(action.equals("/deletePro.do")) {
+			String memberphone = request.getParameter("memberphone");
+			String memberpass = request.getParameter("memberpass");
+			int orderid = Integer.parseInt(request.getParameter("orderid")) ;
+			PrintWriter pw = response.getWriter();
+			
+			
+			int res = carDAO.deleteOrder(orderid, memberpass);
+			System.out.println(res);
+			if(res == 1) {
+				pw.print("<script>");
+				pw.print("alert('예약 삭제 성공.');");
+				pw.print("location.href='"+request.getContextPath()+"/Car/CarReserveConfirm.do?memberphone="+memberphone+"&memberpass="+memberpass+"'");
+				pw.print("</script>");
+				return;
+				
+			
+			}else if(res == 0){
+				pw.print("<script>");
+				pw.print("alert('예약 삭제 실패.');");
+				pw.print("history.back();");
+				pw.print("</script>");
+				return ;
+			}
 		}
 		
 		

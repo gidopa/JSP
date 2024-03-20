@@ -35,7 +35,7 @@
 				<td align="center" width="100">예약수정</td>
 				<td align="center" width="100">예약취소</td>
 			</tr>
-<c:if test="${empty requestScope.v}">
+<c:if test="${empty requestScope.vector}">
 		<tr align="center">
 			<td colspan="11">예약한 정보가 없습니다.</td>
 		</tr>	
