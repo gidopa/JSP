@@ -2,6 +2,7 @@
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
 	request.setCharacterEncoding("utf-8");
 	String contextPath = request.getContextPath();
@@ -31,12 +32,16 @@
 	int carwifi = vo.getCarwifi(); //wifi적용여부
 	int carnave = vo.getCarnave(); //네비적용여부
 	int carbabyseat = vo.getCarbabyseat(); //베이비시트적용여부
-
+	
 %>		
-		
+		<c:if test="${sessionScope.id == null}">
 		<%-- 예약 정보를 수정 요청! --%>
 		<form action="<%=contextPath%>/Car/updatePro.do?memberphone=${requestScope.memberphone}" method="post">
-			
+			</c:if>
+			<c:if test="${sessionScope.id != null}">
+		<%-- 예약 정보를 수정 요청! --%>
+		<form action="<%=contextPath%>/Car/updatePro.do?memberid=${requestScope.memberid}" method="post">
+			</c:if>
 			<input type="hidden" name="orderid" value="<%=orderid %>">
 			<input type="hidden" name="carimg" value="<%=carimg %>">
 			<table width="1000">

@@ -16,6 +16,9 @@
 		<br><br><br>
 		<form action="<%=contextPath%>/Car/deletePro.do" method="post">
 			<input type="hidden" name="orderid" value="${param.orderid}" >
+			<c:if test="${param.memberid != null }">
+			<input type="hidden" name="memberid" value="${param.memberid}" >
+			</c:if>
 			<input type="hidden" name="memberphone" value="${param.memberphone}" >
 			<table width="100%">
 				<tr align="center">

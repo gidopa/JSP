@@ -103,4 +103,26 @@ public class MemberDAO{
 		return check;
 	}
 
+	public MemberVO memberOneIdPass(String id) {
+		MemberVO vo = null;
+		try {
+			con = dataSource.getConnection();
+			String sql = "select id,pass from member where id=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				vo = new MemberVO();
+				vo.setId(id);
+				vo.setPass(rs.getString("pass"));
+			}
+			
+		}catch (Exception e) {
+			System.out.println("DAO.memberOneIdPass sql 에러 : "+e);
+		}finally {
+			resourceRelease();
+		}
+		return vo;
+	}
+
 }

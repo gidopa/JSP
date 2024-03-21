@@ -10,10 +10,18 @@ public class CarConfirmVO {
 	private int carprice;
 	
 	//carorder테이블에서 조회된 정보들을 저장할 변수 
-	private int orderid, carreserveday, carqty,
+	private int orderid, id, carreserveday, carqty,
 				carins, carwifi, carnave, carbabyseat;
 	
 	private String carbegindate;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 
 	public String getCarname() {
 		return carname;

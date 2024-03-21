@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<script>
+		//XMLHttpRequest객체를 저장할 javascript변수 xhttp를 선언한다
+		var xhttp;
+		
+		//XMLHttpRequest객체를 생성하여  xhttp변수에 저장하는 역할의 함수 
+		function createHttpRequest(){
+			xhttp = new XMLHttpRequest();
+		}
+		
+		//createHttpRequest()함수를 호출하여 XMLHttpRequest객체를 생성하고,
+		//GET방식으로 서버에 1.txt파일의 내용을 비동기방식으로 요청합니다.
+		function mySend(){
+			createHttpRequest();
+			//서버의 응답을 처리하기 위해서는  onreadystatechange프로퍼티에서는
+			//readyState반환값에 따라 자동으로 callFuntion함수를 설정 한다.
+			xhttp.onreadystatechange = callFunction;
+			
+			xhttp.open("GET","1.txt", true); //GET방식
+			
+			xhttp.send(null);//위 GET방식으로 서버에 요청시 보낼데이터가 없으면 null을 전달해 요청한다.		
+		}
+		
+		//서버와 클라이언트간의 통신이 모두 성공적으로 완료된 시점이 readyState는 4이고,
+		//status는 200이다. 따라서 2개의 값으로 조건검사를 하고 
+		//응답 데이터 형식은 responseText프로퍼티를 이용한 일반텍스트형식으로 데이터를 받는다.
+		
+		function callFunction(){
+			if(xhttp.readyState == 4){
+				if(xhttp.status == 200){
+					//응답데이터 형식은 responseText프로퍼티를 호출해서 (.txt 파일데이터 또는 .json파일데이터를 응답받는다.)
+					var responseData = xhttp.responseText;
+					//id속성값이 result인 아래의 <div id="result"></div>태그를 선택해서 innerHTML속성에 응답받은 데이터를 넣어 보여준다.
+					document.getElementById("result").innerHTML = responseData;
+				}
+			}
+			
+		}
+		
+		
+		
+
+	</script>
+</head>
+<body>
+	일반텍스트 파일 실습입니다.<br>
+	<button onclick="mySend();">파일수신</button>
+	<div id="result"></div>
+</body>
+</html>
+

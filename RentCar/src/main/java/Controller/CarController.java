@@ -15,9 +15,11 @@ import javax.servlet.http.HttpSession;
 import javax.xml.crypto.Data;
 
 import DAO.CarDAO;
+import DAO.MemberDAO;
 import VO.CarConfirmVO;
 import VO.CarListVO;
 import VO.CarOrderVO;
+import VO.MemberVO;
 
 // <a href="<%=contextPath%>/Car/bb?center=CarResevation.jsp"> 예약을 위한 검색 옵션을 보여주는 화면 띄워주기
 
@@ -25,9 +27,11 @@ import VO.CarOrderVO;
 public class CarController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private CarDAO carDAO;
+	private MemberDAO memberDAO;
 
 	public void init(ServletConfig config) throws ServletException {
 		carDAO = new CarDAO();
+		memberDAO = new MemberDAO();
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -109,20 +113,20 @@ public class CarController extends HttpServlet {
 			request.setAttribute("vo", vo);
 			request.setAttribute("totalreserve", totalreserve);
 			request.setAttribute("totaloption", totaloption);
-			//로그인 상태 확인
+			// 로그인 상태 확인
 			HttpSession session = request.getSession();
-			String id = (String)session.getAttribute("id");
-			if(id==null) {
+			String id = (String) session.getAttribute("id");
+			if (id == null) {
 				request.setAttribute("center", "CarOrder.jsp");
-			}else {
-				//회원정보 조회, reqeust에 회원 정보 바인딩, 
-				
-				
+			} else {
+				// 회원정보 조회, reqeust에 회원 정보 바인딩,
+				MemberVO memberVO = memberDAO.memberOneIdPass(id);
+				request.setAttribute("membervo", memberVO);
 				request.setAttribute("center", "LoginCarOrder.jsp");
 			}
-			
+
 			nextPage = "/CarMain.jsp";
-		}else if(action.equals("/CarOrder.do")) {
+		} else if (action.equals("/CarOrder.do")) {
 			int carno = Integer.parseInt(request.getParameter("carno"));
 			String carbegindate = request.getParameter("carbegindate");
 			int carqty = Integer.parseInt(request.getParameter("carqty"));
@@ -131,7 +135,7 @@ public class CarController extends HttpServlet {
 			int carwifi = Integer.parseInt(request.getParameter("carwifi"));
 			int carnavi = Integer.parseInt(request.getParameter("carnavi"));
 			int carseat = Integer.parseInt(request.getParameter("carseat"));
-			
+
 			CarOrderVO vo = new CarOrderVO();
 			vo.setCarno(carno);
 			vo.setCarbegindate(carbegindate);
@@ -142,105 +146,186 @@ public class CarController extends HttpServlet {
 			vo.setCarwifi(carwifi);
 			vo.setCarnavi(carnavi);
 			vo.setCarseat(carseat);
-			
+
 			HttpSession session = request.getSession();
-			String id = (String)session.getAttribute("id");
-			if(id == null) {
+			String id = (String) session.getAttribute("id");
+			if (id == null) {
 				String memberphone = request.getParameter("memberphone");
 				String memberpass = request.getParameter("memberpass");
-				
+
 				vo.setMemberphone(memberphone);
 				vo.setMemberpass(memberpass);
-			}else {
-				
+			} else {
+				String memberId = request.getParameter("memberid");
+				String memberpass = request.getParameter("memberpass");
+
+				vo.setId(memberId);
+				vo.setMemberpass(memberpass);
+
 			}
-			carDAO.insertCarOrder(vo,session);
+			carDAO.insertCarOrder(vo, session);
 			PrintWriter pw = response.getWriter();
 			pw.print("<script>");
 			pw.print("alert('예약 되었습니다.');");
-			pw.print("location.href='"+request.getContextPath()+"/Car/CarList.do';");
+			pw.print("location.href='" + request.getContextPath() + "/Car/CarList.do';");
 			pw.print("</script>");
-			// doHandle을 빠져나가므로 dispatcher 부분 안탐 
-			return ;
-			
-		}else if (action.equals("/cc")) {
-			String center = request.getParameter("center");
-			request.setAttribute("center", center);
-			nextPage="/CarMain.jsp";
-		}else if(action.equals("/CarReserveConfirm.do")) {
-			//요청한값 얻고, db에서 브라우저로 응답할값 생성, 바인딩하고 재요청
-			String memberphone = request.getParameter("memberphone");
-			String memberpass = request.getParameter("memberpass");
-			//입력한 정보로 값을 조회하는데 carlist테이블과 carorder테이블을 natural join하여 가져옴
-			Vector<CarConfirmVO> vector = carDAO.getAllCarOrder(memberphone,memberpass);
-			request.setAttribute("vector", vector);
-			request.setAttribute("memberphone", memberphone);
-			request.setAttribute("memberpass", memberpass);
-			request.setAttribute("center", "CarReserveResult.jsp");
-			nextPage="/CarMain.jsp";
-		}else if(action.equals("/update.do")) {
-			int orderid = Integer.parseInt(request.getParameter("orderid"));
-			String carimg = request.getParameter("carimg");
-			String memberphone = request.getParameter("memberphone");
-			String memberpass = request.getParameter("memberpass");
-			CarConfirmVO vo = carDAO.getOneOrder(orderid);
-			vo.setCarimg(carimg);
-			request.setAttribute("vo", vo);
-			request.setAttribute("memberphone",memberphone);
-			request.setAttribute("memberpass",memberpass);
-			request.setAttribute("center", "CarConfirmUpdate.jsp");
-			nextPage="/CarMain.jsp";	
-		}else if(action.equals("/updatePro.do")) {
-			int result = carDAO.carOrderUpdate(request); 
-			PrintWriter pw = response.getWriter();
-			if(result == 1) {
-				pw.print("<script>");
-				pw.print("alert('예약 수정 성공.');");
-				pw.print("location.href='"+request.getContextPath()+
-						"/Car/update.do?orderid="+request.getParameter("orderid") +"&carimg="+
-						request.getParameter("carimg")+"&memberpass="+request.getParameter("memberpass")+
-						"&memberphone="+request.getParameter("memberphone")+"';");
-				pw.print("</script>");
-				return;
-			}else {
-				pw.print("<script>");
-				pw.print("alert('예약 수정 실패.');");
-				pw.print("history.back();");
-				pw.print("</script>");
-				return ;
-			}
-		}else if(action.equals("/delete.do")) {
-			//예약 취소를 위해 비밀번호를 입력할 화면의 경로
+			// doHandle을 빠져나가므로 dispatcher 부분 안탐
+			return;
+
+		} else if (action.equals("/cc")) {
 			String center = request.getParameter("center");
 			request.setAttribute("center", center);
 			nextPage = "/CarMain.jsp";
-		}else if(action.equals("/deletePro.do")) {
-			String memberphone = request.getParameter("memberphone");
-			String memberpass = request.getParameter("memberpass");
-			int orderid = Integer.parseInt(request.getParameter("orderid")) ;
-			PrintWriter pw = response.getWriter();
-			
-			
-			int res = carDAO.deleteOrder(orderid, memberpass);
-			System.out.println(res);
-			if(res == 1) {
-				pw.print("<script>");
-				pw.print("alert('예약 삭제 성공.');");
-				pw.print("location.href='"+request.getContextPath()+"/Car/CarReserveConfirm.do?memberphone="+memberphone+"&memberpass="+memberpass+"'");
-				pw.print("</script>");
-				return;
-				
-			
-			}else if(res == 0){
-				pw.print("<script>");
-				pw.print("alert('예약 삭제 실패.');");
-				pw.print("history.back();");
-				pw.print("</script>");
-				return ;
+		} else if (action.equals("/CarReserveConfirm.do")) {
+			HttpSession session = request.getSession();
+			String id = (String) session.getAttribute("id");
+			if (id == null) {
+				// 요청한값 얻고, db에서 브라우저로 응답할값 생성, 바인딩하고 재요청
+				String memberphone = request.getParameter("memberphone");
+				String memberpass = request.getParameter("memberpass");
+				// 입력한 정보로 값을 조회하는데 carlist테이블과 carorder테이블을 natural join하여 가져옴
+				Vector<CarConfirmVO> vector = carDAO.getAllCarOrder(memberphone, memberpass);
+				request.setAttribute("vector", vector);
+				request.setAttribute("memberphone", memberphone);
+				request.setAttribute("memberpass", memberpass);
+			} else {
+				String memberid = request.getParameter("memberid");
+				String memberpass = request.getParameter("memberpass");
+				// 입력한 정보로 값을 조회하는데 carlist테이블과 carorder테이블을 natural join하여 가져옴
+				Vector<CarConfirmVO> vector = carDAO.getAllCarOrderMember(memberid, memberpass);
+				request.setAttribute("vector", vector);
+				request.setAttribute("memberid", memberid);
+				request.setAttribute("memberpass", memberpass);
+			}
+			request.setAttribute("center", "CarReserveResult.jsp");
+			nextPage = "/CarMain.jsp";
+		} else if (action.equals("/update.do")) {
+			HttpSession session = request.getSession();
+			String id = (String) session.getAttribute("id");
+			if (id == null) {
+				int orderid = Integer.parseInt(request.getParameter("orderid"));
+				String carimg = request.getParameter("carimg");
+				String memberphone = request.getParameter("memberphone");
+				String memberpass = request.getParameter("memberpass");
+				CarConfirmVO vo = carDAO.getOneOrder(orderid);
+				vo.setCarimg(carimg);
+				request.setAttribute("vo", vo);
+				request.setAttribute("memberphone", memberphone);
+				request.setAttribute("memberpass", memberpass);
+			} else {
+				int orderid = Integer.parseInt(request.getParameter("orderid"));
+				String carimg = request.getParameter("carimg");
+				String memberid = request.getParameter("memberid");
+				String memberpass = request.getParameter("memberpass");
+				CarConfirmVO vo = carDAO.getOneMemberOrder(orderid);
+				vo.setCarimg(carimg);
+				request.setAttribute("vo", vo);
+				request.setAttribute("memberphone", memberid);
+				request.setAttribute("memberpass", memberpass);
+			}
+			request.setAttribute("center", "CarConfirmUpdate.jsp");
+			nextPage = "/CarMain.jsp";
+		} else if (action.equals("/updatePro.do")) {
+			HttpSession session = request.getSession();
+			String id = (String) session.getAttribute("id");
+			if (id == null) {
+				int result = carDAO.carOrderUpdate(request);
+				PrintWriter pw = response.getWriter();
+				if (result == 1) {
+					pw.print("<script>");
+					pw.print("alert('예약 수정 성공.');");
+					pw.print("location.href='" + request.getContextPath() + "/Car/update.do?orderid="
+							+ request.getParameter("orderid") + "&carimg=" + request.getParameter("carimg")
+							+ "&memberpass=" + request.getParameter("memberpass") + "&memberphone="
+							+ request.getParameter("memberphone") + "';");
+					pw.print("</script>");
+					return;
+				} else {
+					pw.print("<script>");
+					pw.print("alert('예약 수정 실패.');");
+					pw.print("history.back();");
+					pw.print("</script>");
+					return;
+				}
+			} else {
+				int result = carDAO.carMemberOrderUpdate(request);
+				PrintWriter pw = response.getWriter();
+				if (result == 1) {
+					pw.print("<script>");
+					pw.print("alert('예약 수정 성공.');");
+					pw.print("location.href='" + request.getContextPath() + "/Car/update.do?orderid="
+							+ request.getParameter("orderid") + "&carimg=" + request.getParameter("carimg")
+							+ "&memberpass=" + request.getParameter("memberpass") + "&memberid="
+							+ request.getParameter("memberid") + "';");
+					pw.print("</script>");
+					return;
+				} else {
+					pw.print("<script>");
+					pw.print("alert('예약 수정 실패.');");
+					pw.print("history.back();");
+					pw.print("</script>");
+					return;
+				}
+
+			}
+
+		} else if (action.equals("/delete.do")) {
+			// 예약 취소를 위해 비밀번호를 입력할 화면의 경로
+			String center = request.getParameter("center");
+			request.setAttribute("center", center);
+			nextPage = "/CarMain.jsp";
+		} else if (action.equals("/deletePro.do")) {
+			HttpSession session = request.getSession();
+			String id = (String) session.getAttribute("id");
+			if (id == null) {
+				String memberphone = request.getParameter("memberphone");
+				String memberpass = request.getParameter("memberpass");
+				int orderid = Integer.parseInt(request.getParameter("orderid"));
+				PrintWriter pw = response.getWriter();
+
+				int res = carDAO.deleteOrder(orderid, memberpass);
+				System.out.println(res);
+				if (res == 1) {
+					pw.print("<script>");
+					pw.print("alert('예약 삭제 성공.');");
+					pw.print("location.href='" + request.getContextPath() + "/Car/CarReserveConfirm.do?memberphone="
+							+ memberphone + "&memberpass=" + memberpass + "'");
+					pw.print("</script>");
+					return;
+
+				} else if (res == 0) {
+					pw.print("<script>");
+					pw.print("alert('예약 삭제 실패.');");
+					pw.print("history.back();");
+					pw.print("</script>");
+					return;
+				}
+			} else {
+				String memberid = request.getParameter("memberid");
+				String memberpass = request.getParameter("memberpass");
+				int orderid = Integer.parseInt(request.getParameter("orderid"));
+
+				PrintWriter pw = response.getWriter();
+
+				int res = carDAO.deleteMemberOrder(orderid, memberpass);
+				if (res == 1) {
+					pw.print("<script>");
+					pw.print("alert('예약 삭제 성공.');");
+					pw.print("location.href='" + request.getContextPath() + "/Car/CarReserveConfirm.do?memberid="
+							+ memberid + "&memberpass=" + memberpass + "'");
+					pw.print("</script>");
+					return;
+
+				} else if (res == 0) {
+					pw.print("<script>");
+					pw.print("alert('예약 삭제 실패.');");
+					pw.print("history.back();");
+					pw.print("</script>");
+					return;
+				}
 			}
 		}
-		
-		
+
 		RequestDispatcher rd = request.getRequestDispatcher(nextPage);
 		rd.forward(request, response);
 	}

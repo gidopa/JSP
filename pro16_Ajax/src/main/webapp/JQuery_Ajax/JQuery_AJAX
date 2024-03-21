@@ -1,0 +1,112 @@
+
+
+JQuery에서 제공되는 AJAX(비동기 통신) 메소드들
+
+1. 
+	$.ajax({
+		     //요청을 보낼 서버페이지의 주소를 설정하는 속성
+			 url: "",
+			 
+			 //HTTP요청메소드 (GET, POST, PUT, DELETE 등 )
+			 //             개발자는 GET 또는 POST 사용
+			 method:"",
+			 
+			 //서버페이지로 보낼 데이터를 JSONObject형태의 데이터로 설정
+			 data: { },
+			 
+			 //서버페이지에서 반환되는 데이터의 예상형식(json, xml, text 등)
+			 dataType: "",
+		
+			 //요청이 성공적으로 완료되었을때 실행될 콜백함수를 정의 합니다.
+			 success:function(response){
+			 	//성공적으로요청이 완료된 경우 실행될 로직 구문 작성 
+			 
+			 },
+			 //요청이 실패한 경우 실행될 콜백함수를 정의 합니다.
+			 error:function(xhr, status, error){
+			 	//요청이 실패된 경우 에러메세지를 출력
+			 	
+			 }
+			
+			그외에도  async속성 timeout속성, headers속성등 다양한 옵션 속성들을 설정할수 있습니다.
+	
+	});
+
+
+  2. 
+  	load메소드 
+  	
+  	  $(targetElement).load(url, data, callback);
+
+	   $(targetElement) 부분  :  load메소드를 이용해 가져온 내용을 표시할 HTML요소를 선택하는 부분
+	   
+	   url 부분  : 가져올 다른 서버페이지의  요청 URL주소를 작성 
+	   
+	   data 부분 : 요청시 함께 전송할 데이터를  작성
+	   
+	   callback 부분 : 요청이 완료된 후 실행할 콜백함수 작성 
+	   
+
+  3. $.get메소드 - GET방식으로 서버페이지를 요청할때 사용되는 메소드 
+  
+  	 $.get(url, data, success, dataType);
+  	 
+  	 url : 요청을 보낼 서버페이지 주소 작성
+  	 
+  	 data(선택사항) : 서버로 보낼 데이터를 JSONObject {속성1:속성값1, 속성2:속성값2,......} 객체 형태로 넣습니다.
+  	 
+  	 success(선택사항) : 요청이 성공적으로 완료되었으때 실행될 콜백함수를 넣습니다. function(responseData){   } 
+  	 
+  	 dataType(선택사항) : 서버에서 반환되는 응답데이터의 예상 형식을 설정합니다. "json" 또는 "xml" 또는 "text"
+  	 
+ 
+ 4. $.post메소드 - POST방식으로 서버페이지를 요청할떄 사용되는 메소드  	 
+  	 
+  	 $.post(url, data, success, dataType);
+  	 
+  	 url : 요청을 보낼 서버페이지 주소 작성
+  	 
+  	 data(선택사항) : 서버로 보낼 데이터를 JSONObject {속성1:속성값1, 속성2:속성값2,......} 객체 형태로 넣습니다.
+  	 
+  	 success(선택사항) : 요청이 성공적으로 완료되었으때 실행될 콜백함수를 넣습니다. function(responseData){   } 
+  	 
+  	 dataType(선택사항) : 서버에서 반환되는 응답데이터의 예상 형식을 설정합니다. "json" 또는 "xml" 또는 "text"
+  
+  
+  5. $.getJSON메소드 - 서버로부터 JSON데이터를 GET요청방식으로 가져오는데 사용되는 메소드로 
+  					 주로 JSON데이터를 서버로부터 받아와서 처리하는데 활용됩니다.
+  					 
+  	 $.getJSON(url, data, success);
+  	 
+  	 url : 요청을 보낼 서버페이지 주소작성
+  	 
+     data(선택사항) : 서버로 보낼 데이터를 JSONObject {속성1:속성값1, 속성2:속성값2,......} 객체 형태로 넣습니다.  				 
+  	 
+	 success(선택사항) : 요청이 성공적으로 완료되었으때 실행될 콜백함수를 넣습니다. function(responseData){   } 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+
+
+
+
+
+
+
+
+

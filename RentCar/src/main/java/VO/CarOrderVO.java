@@ -8,7 +8,7 @@ import lombok.Setter;
 public class CarOrderVO  {
 	
 	private int orderid;
-	private int id;
+	private String id;
 	private int carno;
 	private int carqty;
 	private int carreserveday;

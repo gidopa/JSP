@@ -67,12 +67,25 @@
 					<c:if test="${vo.carbabyseat == 1}">적용</c:if>
 					<c:if test="${vo.carbabyseat == 0}">미적용</c:if>
 				</td>
-				<td align="center" width="100">
+		<!-- 로그인 안되어 있으면 -->
+		<c:if test="${sessionScope.id == null}">
+			<td align="center" width="100">
 					<a href="${contextPath}/Car/update.do?orderid=${vo.orderid}&carimg=${vo.carimg}&memberpass=${requestScope.memberpass}&memberphone=${requestScope.memberphone}">예약수정</a>
 				</td>
 				<td align="center" width="100">
 					<a href="${contextPath}/Car/delete.do?orderid=${vo.orderid}&center=Delete.jsp&memberphone=${requestScope.memberphone}">예약취소</a>
 				</td>
+		</c:if>
+		<!-- 로그인 되어 있으면 -->
+		<c:if test="${sessionScope.id != null}">
+			<td align="center" width="100">
+					<a href="${contextPath}/Car/update.do?orderid=${vo.orderid}&carimg=${vo.carimg}&memberpass=${requestScope.memberpass}&memberid=${requestScope.memberid}">회원예약수정</a>
+				</td>
+				<td align="center" width="100">
+					<a href="${contextPath}/Car/delete.do?orderid=${vo.orderid}&center=Delete.jsp&memberid=${requestScope.memberid}">회원예약취소</a>
+				</td>
+		</c:if>
+				
 			</tr>
 	</c:forEach>
 	
