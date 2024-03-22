@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script>
+	$(function(){
+		$("#html").click(function(){
+			// div요소를 선턱해 load메소드로 코드가 적혀 있는 요청페이지 test.html URL 작성
+			// $("#result").load("test.html"); 
+			$("#result").load("test.html h2");
+			$("#result").load("https://jsonplaceholder.typicode.com/posts");
+		})
+	});
+</script>
+</head>
+<body>
+	<button id="html">요청</button>
+	<div id="result"></div>
+</body>
+</html>

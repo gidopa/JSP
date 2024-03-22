@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script>
+	$(function(){
+		$("#html").click(function(){
+			$.get("test.html", function(data){ // 요청한 test.html의 모든 html 요소를 받음
+				console.log("성공적으로 요청함");
+				$("#result").html(data);
+			}).done(function(data){// 요청이 완료되었을떄 호출되는 콜백
+				console.log("데이터 가져오기 성공 : ", data);
+			}).fail(function(xhr,status,error){
+				console.log("데이터 가져오기 실패");
+				//xhr : 서버로부터 받은 상태 및 응답데이터에 접근
+				//status : 상태코드
+				//error : error 타입 
+			}) 
+		})
+	});
+</script>
+</head>
+<body>
+	<button id="html">요청</button>
+	<div id="result"></div>
+</body>
+</html>

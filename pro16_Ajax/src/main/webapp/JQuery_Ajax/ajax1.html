@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script type="text/javascript">
+		function fnProcess(){
+			//ajax요청
+			$.ajax({
+				type:"get",//서블릿을 get으로 요청
+				dataType:"text",//서블릿으로부터 응답받는 데이터의 종류 text / xml / json
+				async:"true", //비동기 동기를 선택 비동기가 async
+				//서블릿을 요청할 url or 매핑 url
+				url:"http://localhost:8083/pro16_Ajax/ajaxTest1",
+				data:{param:"hello,jqeury"}, //서블릿으로 보낼 데이터
+				//서버페이지에 요청이 성공했을때 호출
+				//data : 응답받는 데이터, textStatus : 통신 상태값, jqXHR : jqXHR이라는 객체를 파라미터로 받음
+				//data만 쓰면 된다
+				success:function(data,textStatus, jqXHR){
+					$("#msg").append(data);
+				},
+				//요청에 실패했을때 호출되는 콜백함수
+				//data는 HTTP프로토콜의 에러메세지가 넘어옴
+				//textStatus : timeout, error abort 등등 중에 어떤 에러인지 넘어옴
+				//jqXHR : 발생한 에러 타입과 추가적인 예외사항의 메세지가 넘어옴
+				error:function(data,textStatus,jqXHR){
+					alert("error");
+					console.log(data);
+				}
+				/* ,
+				//응답 데이터를 성공적으로 받았을때 호출되는 콜백
+				complete:function(data,textStatus){
+					alert("task complete");
+				} */
+			});
+		}
+	</script>
+</head>
+<body>
+	<button type="button" onclick="fnProcess()">데이터요청</button>
+	<!-- 버튼을 클릭해 Ajax1Test1Servlet요청하면 서버페이지에서 브라우저에 응답한 데이터를 div에 보여줌  -->
+	<div id="msg"></div>
+	
+	
+</body>
+</html>

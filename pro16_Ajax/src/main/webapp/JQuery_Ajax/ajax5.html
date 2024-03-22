@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>외부 사이트에서 json 데이터 불러오기</title>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script>
+	$(function(){
+		$("#loadDataBtn").on("click",()=>{
+			let apiURL = 'https://randomuser.me/api/';
+			$.getJSON(apiURL,(data)=>{
+				console.log(data);
+				//가져온 데이터에서 무작위 사용자 정보를 추출 
+				console.log(data.results);
+				console.log(data.results[0].name,"");
+				console.log(data.results[0].name.first);
+				console.log(data.results[0].name.last);
+				let user = data.results[0];
+				let location = user.location;
+				console.log(location);
+				let info = '이름: ' + user.name.first + '  ' + user.name.last + '<br>' +
+							'국가: ' + location.country + '<br>' + '이메일: ' + user.email + '<br>' + '전화번호 : '  + user.phone;
+				$("#userInfo").html(info);
+			}).fail((jqXHR,textStatus,errorThrown)=>{
+				console.log("Error : " + textStatus, errorThrown);
+			})
+		})
+	})
+</script>
+</head>
+<body>
+	<button id="loadDataBtn">사용자 정보 불러오기</button>
+	<div id="userInfo"></div>
+</body>
+</html>

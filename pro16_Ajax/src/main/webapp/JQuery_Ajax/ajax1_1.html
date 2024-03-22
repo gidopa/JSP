@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script>
+	$(function(){
+		$("#cal").on("click",function(){
+			$.ajax({
+				type:"post",
+				url:"calc.jsp",
+				data:{v1:$("#v1").val(), v2:$("#v2").val()},
+				dataType:"text",
+				success:function(data){
+	
+				}
+			});
+		});	
+	});
+</script>
+</head>
+<body>
+	<!-- input태그에 입력한 값을 calc.jsp서버페이지로 전송, 전송된 값을 더해서 text형식으로 응답처리 -->
+	값1 : <input type="text" name="v1" id="v1"> <br>
+	값2 : <input type="text" name="v2" id="v2"> <br>
+	<button type="button" id="cal">계산</button>
+	<div id="result"></div>
+</body>
+</html>
