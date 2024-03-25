@@ -90,12 +90,12 @@
 	<%
 	}
 	%>
-		<a href="javascript:list()">[처음으로]</a>
 	</td>
 </tr>
 </table>
 <BR>
-<form action="list.jsp" name="search" method="post">
+<%-- fnSearch()함수의 리턴값이 false이면  action속성에 적힌 컨트롤러 요청을 하지 않습니다. --%>
+<form action="<%=contextPath%>/board/seachlist.bo" name="search" method="post"  onsubmit="return fnSearch();">
 	<table border=0 width=527 align=center cellpadding=4 cellspacing=0>
 	<tr>
 		<td align=center valign=bottom>
@@ -112,6 +112,7 @@
 	</tr>
 	</table>
 </form>
+<a href="<%=contextPath%>/board/list.bo">[처음으로]</a>
 </center>	
 </BODY>
 </HTML>

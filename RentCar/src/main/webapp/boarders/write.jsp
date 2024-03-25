@@ -135,13 +135,12 @@
 </form>
 	<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 	
-	<%-- <script type="text/javascript">
+	 <script type="text/javascript">
 		
-		$("#list").click(function(event) {
+	 $("#list").click(function(event) {
 			event.preventDefault();
 			//board테이블에 저장된 글을 조회 하는 요청!
-			location.href = "<%=contextPath%>/board/list.bo?nowPage=<%=nowPage%>&nowBlock=<%=nowBlock%>";
-			
+			location.href="<%=contextPath%>/board/list.bo"; 
 		})
 		
 	
@@ -193,6 +192,6 @@
 			
 		})
 		
-	</script> --%>
+	</script>
 </body>
 </html>
