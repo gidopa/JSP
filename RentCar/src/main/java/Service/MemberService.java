@@ -53,4 +53,10 @@ public class MemberService {
 
 	}
 
+	public boolean checkIdDuplicate(HttpServletRequest request) {
+		String id = request.getParameter("id");
+		boolean result = memberDAO.checkIdDuplicate(id);
+		return result;
+	}
+
 }

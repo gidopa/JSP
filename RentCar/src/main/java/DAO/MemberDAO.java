@@ -16,7 +16,7 @@ import VO.CarListVO;
 import VO.CarOrderVO;
 import VO.MemberVO;
 
-public class MemberDAO{
+public class MemberDAO {
 	private Connection con;
 	// DB와 연결 후 개발자가 만든 쿼리문을 DB에 전송해 실행할 역할을 하는 Statement실행객체의 주소를 저장할 참조 변수 선언
 	private PreparedStatement pstmt;
@@ -111,14 +111,65 @@ public class MemberDAO{
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, id);
 			rs = pstmt.executeQuery();
-			if(rs.next()) {
+			if (rs.next()) {
 				vo = new MemberVO();
 				vo.setId(id);
 				vo.setPass(rs.getString("pass"));
 			}
-			
+
+		} catch (Exception e) {
+			System.out.println("DAO.memberOneIdPass sql 에러 : " + e);
+		} finally {
+			resourceRelease();
+		}
+		return vo;
+	}
+
+	public boolean checkIdDuplicate(String id) {
+		boolean result = false;
+		try {
+			con = dataSource.getConnection();
+			// id를 조건으로 검색해 검색된 행이 1개면 true 아니면 false 반환
+//			String sql = "select decode(count(*),1,'true','false') as existed from member where id=?";
+			String sql = "select* from member where id=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				result = true;
+			} else {
+				result = false;
+			}
+//			rs.next();
+//			String res = rs.getString("existed");
+//			result = Boolean.parseBoolean(res);
+		} catch (Exception e) {
+			System.out.println("checkIdDup에서 에러 :" + e);
+		} finally {
+			resourceRelease();
+		}
+		return result;
+	}
+
+	public MemberVO memberOne(String id) {
+		MemberVO vo = null;
+		try {
+		con = dataSource.getConnection();
+		String sql = "select email,name,id from member where id=?";
+		pstmt = con.prepareStatement(sql);
+		pstmt.setString(1, id);
+		rs = pstmt.executeQuery();
+		if(rs.next()) {
+			vo = new MemberVO();
+			String b_email = rs.getString("email");
+			String b_name = rs.getString("name");
+			String b_id = rs.getString("id");
+			vo.setEmail(b_email);
+			vo.setName(b_name);
+			vo.setId(b_id);
+		}
 		}catch (Exception e) {
-			System.out.println("DAO.memberOneIdPass sql 에러 : "+e);
+			System.out.println("memberOne 메소드 오류 : " + e);
 		}finally {
 			resourceRelease();
 		}

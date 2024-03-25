@@ -324,6 +324,8 @@ public class CarController extends HttpServlet {
 					return;
 				}
 			}
+		}else if(action.equals("/NaverSearchAPI.do")) {
+			
 		}
 
 		RequestDispatcher rd = request.getRequestDispatcher(nextPage);

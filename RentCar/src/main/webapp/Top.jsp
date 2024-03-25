@@ -81,10 +81,17 @@
 						  <button id="joinBtn" class="btn btn-info" onclick="location.href='<%=contextPath%>/Guestbook/GuestbookListAction.gb'">방명록</button>
 							<nav class="navbar navbar-light">
 									<div class="container-fluid">
-									<form class="d-flex" action="<%=contextPath%>/Car/NaverSearchAPI.do">
+									<form class="d-flex" action="<%=contextPath%>/NaverSearchAPI.do">
+									<select id="startNum" name="startNum" class="form-control me-2">
+										<option value="1">1페이지</option>
+										<option value="11">2페이지</option>
+										<option value="21">3페이지</option>
+										<option value="31">4페이지</option>
+										<option value="41">5페이지</option>					
+									</select>
 										<input class="form-control me-2" type="search"
 											id="keyword" name="keyword" placeholder="Search" aria-label="Search">
-										<input type="hidden" id="startNum" name="startNum" value="1">	
+										<!-- <input type="hidden" id="startNum" name="startNum" value="1">	 -->
 										<button id="searchBtn" class="btn btn-outline-success" type="submit">search</button>
 									</form>
 								</div>
@@ -100,10 +107,17 @@
 							<button id="joinBtn" class="btn btn-info" onclick="location.href='<%=contextPath%>/Guestbook/GuestbookListAction.gb'">방명록</button>
 							<nav class="navbar navbar-light">
 									<div class="container-fluid">
-									<form class="d-flex" action="<%=contextPath%>/Car/NaverSearchAPI.do">
+									<form class="d-flex" action="<%=contextPath%>/NaverSearchAPI.do">
+									<select id="startNum" name="startNum" class="form-control me-2">
+										<option value="1">1페이지</option>
+										<option value="11">2페이지</option>
+										<option value="21">3페이지</option>
+										<option value="31">4페이지</option>
+										<option value="41">5페이지</option>					
+									</select>
 										<input class="form-control me-2" type="search"
 											id="keyword" name="keyword" placeholder="Search" aria-label="Search">
-										<input type="hidden" id="startNum" name="startNum" value="1">	
+										<!-- <input type="hidden" id="startNum" name="startNum" value="1"> -->	
 										<button id="searchBtn" class="btn btn-outline-success" type="submit">search</button>
 									</form>
 								</div>
@@ -133,7 +147,7 @@
 				</a> <%--예약확인 --%>
 			</td>
 			<td align="center" bgcolor="red" width="20%">
-				<a href="<%=contextPath %>/board1/list.bo">
+				<a href="<%=contextPath %>/board/list.bo">
 					<div style="font-size: 2.5rem; color: white;">자유게시판</div>
 				</a> <%--자유게시판 --%>
 			</td>

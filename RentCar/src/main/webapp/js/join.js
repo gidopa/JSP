@@ -22,7 +22,7 @@
 	    		//입력한 아이디가 DB에 저장되어 있는지 없는지 확인 요청
 	    		//Ajax기술을 이용 하여 비동기 방식으로 MemberController로 합니다.
 	    		$.ajax({
-	    			url : "http://localhost:8090/CarProject/member/joinIdCheck.me", //요청할 주소
+	    			url : "http://localhost:8083/RentCar/member/joinIdCheck.me", //요청할 주소
 	    			type : "post",  //전송요청방식 설정! get 또는 post 둘중 하나를 작성
 	    			async : true,  //true는 비동기방식 , false는 동기방식 으로 서버페이지 요청!
 	    			data : {id : $("#id").val()}, //서버 페이지로 요청할 변수명 : 값

@@ -2,6 +2,8 @@ package Controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 import javax.servlet.RequestDispatcher;
@@ -15,21 +17,24 @@ import javax.servlet.http.HttpSession;
 import javax.xml.crypto.Data;
 
 import DAO.CarDAO;
+import Service.BoardService;
 import Service.MemberService;
+import VO.BoardVO;
 import VO.CarConfirmVO;
 import VO.CarListVO;
 import VO.CarOrderVO;
+import VO.MemberVO;
 
-// <a href="<%=contextPath%>/Car/bb?center=CarResevation.jsp"> 예약을 위한 검색 옵션을 보여주는 화면 띄워주기
-
-@WebServlet("/member/*")
-public class MemberController extends HttpServlet {
+@WebServlet("/board/*")
+public class BoardController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private MemberService memberService;
+	private BoardService boardService;
 	
 	public void init(ServletConfig config) throws ServletException {
 //		memberService = new MemberService();
 		memberService = new MemberService();
+		boardService = new BoardService();
 	}		
 		
 
@@ -53,62 +58,35 @@ public class MemberController extends HttpServlet {
 		String center = null;
 		String main = "/CarMain.jsp";
 		String action = request.getPathInfo();
+		HttpSession session = request.getSession();
+		BoardVO boardVO = null;
+		ArrayList list = null;
+		String loginId = (String)session.getAttribute("id");
+		int count = 0; // 조회한 글 갯수
 		PrintWriter out = response.getWriter();
-		System.out.println(action);
-		switch (action) {
-			case "/join.me":
-				center = memberService.joinName(request);
+		System.out.println("action : " + action);
+		switch(action) {
+			case "/list.bo":
+				list = boardService.serviceBoardListALl();
+				count = boardService.getTotalRecord(); // board테이블에 저장된 모든 글 갯수 조회
+				//list.jsp페이징 처리 부분에서 이전 또는 다음 또는 각 페이지 번호를 눌렀을때 요청 받는 값 얻기
+				center = "/boarders/list.jsp";
+				//조회된 글 목록을 보여줄 주소
 				request.setAttribute("center", center);
-				nextPage = "/CarMain.jsp";
+				request.setAttribute("list", list);
+				request.setAttribute("count", count);
+				// 로그인한 회원의 아이디 request에 바인딩
+				request.setAttribute("id", loginId);
+				nextPage = main;
 				break;
-			case "/joinPro.me":
-				//가입할 회원정보가 저장된 request를 MemberService에게 전달
-				memberService.serviceInsertMember(request);
-				nextPage = "/CarMain.jsp";
+			case "/write.bo":
+				MemberVO memberVO = boardService.serviceMemberOne(loginId);
+				// 새글 입력하는 중앙 view 주소 request에 바인딩
+				request.setAttribute("center", "boarders/write.jsp");
+				request.setAttribute("memberVO", memberVO);
+				nextPage = main;
 				break;
-			case "/login.me":
-				memberService.serviceLoginMember();
-				center = memberService.serviceLoginMember();
-				request.setAttribute("center", center);
-				nextPage = "/CarMain.jsp";
-				break;
-			case "/loginPro.me":
-				int check = memberService.serviceUserCheck(request);
-				if(check == 0) {
-					out.print("<script>");
-					out.print("alert('비밀번호가 일치하지 않습니다.')");
-					out.print("history.back();");
-					out.print("</script>");
-					return;
-				}else if(check == -1) {
-					out.print("<script>");
-					out.print("alert('아이디가 일치하지 않습니다.')");
-					out.print("history.back();");
-					out.print("</script>");
-					return;
-				}
-				
-				nextPage= "/CarMain.jsp";
-				break;
-			
-			case "/logout.me":
-				memberService.serviceLogOut(request);
-				nextPage= "/CarMain.jsp";
-				break;
-			
-			case "/joinIdCheck.me":
-				//true면 중복 false면 중복아님
-				boolean result = memberService.checkIdDuplicate(request);
-				if(result == true) {
-					out.write("not usable");
-					return;
-				}else if(!result){
-					out.write("usable");
-					return;
-				}
-				break;
-			default:
-				break;
+				default:
 		}
 		
 		RequestDispatcher rd = request.getRequestDispatcher(nextPage);
