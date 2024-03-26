@@ -299,6 +299,65 @@ public class BoardDAO {
 			return boardVO;
 			
 		}
+
+		public boolean passCheck(String b_idx, String pass) {
+			boolean result = false;
+			try {
+				con = dataSource.getConnection();
+				String sql = "select * from board where b_idx=? and b_pw=?";
+				pstmt = con.prepareStatement(sql);
+				pstmt.setInt(1, Integer.parseInt(b_idx) );
+				pstmt.setString(2, pass);
+				rs = pstmt.executeQuery();
+				if(rs.next()) {
+					result=true;
+				}else {
+					result=false;
+				}
+			}catch (Exception e) {
+				System.out.println(" BoardDAO passCheck 오류 : " + e);
+			}finally {
+				resourceRelease();
+			}
+			return result;
+		}
+
+		public int modBoard(String idx,String email,String content,String title) {
+			int result = -1;
+			try {
+				con = dataSource.getConnection();
+				String sql = "update board set b_title=?, b_email=?, b_content=? where b_idx=?";
+				pstmt = con.prepareStatement(sql);
+				pstmt.setString(1, title);
+				pstmt.setString(2, email);
+				pstmt.setString(3, content);
+				pstmt.setString(4, idx);
+				result = pstmt.executeUpdate();
+			}catch (Exception e) {
+				System.out.println("boarDAO modBoard 오류 : " + e); 
+			}finally {
+				resourceRelease();
+			}
+		
+			return result;
+		}
+
+		public int deleteBoard(String idx) {
+			int res = -1;
+			
+		try {
+			con = dataSource.getConnection();
+			String sql = "delete from board where b_idx=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, idx);
+			res= pstmt.executeUpdate();
+		}catch (Exception e) {
+			System.out.println("boarDAO deleteBoard 오류 : " + e); 
+		}finally {
+			resourceRelease();
+		}
+		return res;
+		}
 	
 	
 

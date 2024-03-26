@@ -79,6 +79,31 @@ public class BoardService {
 			return boardVO;
 		}
 
+		public boolean servicePassCheck(HttpServletRequest request) {
+			boolean result = false;
+			String b_idx = request.getParameter("b_idx"); 
+			String pass = request.getParameter("pass"); 
+			result = boardDAO.passCheck(b_idx,pass);
+			return result;
+		}
+
+		public int modBoard(HttpServletRequest request) {
+			int res = -1;
+			String email = request.getParameter("email");
+			String content = request.getParameter("content");
+			String title = request.getParameter("title");
+			String idx = request.getParameter("idx");
+			res = boardDAO.modBoard(idx,email,content,title);
+			return res;
+		}
+
+		public int deleteBoard(HttpServletRequest request) {
+			int res = -1;
+			String idx = request.getParameter("b_idx");
+			res = boardDAO.deleteBoard(idx);
+			return res;
+		}
+
 	
 	
 

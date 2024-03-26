@@ -139,6 +139,33 @@ public class BoardController extends HttpServlet {
 				request.setAttribute("b_idx", b_idx);
 				nextPage = "/CarMain.jsp";
 				break;
+			case "/password.do": //글수정화면에서 패스워드 입력하고 b_idx와 pw를 넘겨줌
+				boolean resultPass = boardService.servicePassCheck(request);
+				if(resultPass) {
+					out.write("비밀번호맞음");
+					return;
+				}else {
+					out.write("비밀번호틀림");
+					return;
+				}
+			case "/updateBoard.do":
+				int res = boardService.modBoard(request);
+				if(res == 1) {
+					out.write("수정성공");
+					return;
+				}else {
+					out.write("수정실패");
+					return;
+				}
+			case "/deleteBoard.bo":
+				res = boardService.deleteBoard(request);
+				if(res == 1) {
+					out.write("삭제성공");
+					return;
+				}else {
+					out.write("삭제실패");
+					return;
+				}
 				default:
 			
 		}
