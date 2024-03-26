@@ -90,6 +90,7 @@ public class BoardDAO {
 			con = dataSource.getConnection();
 			String sql = "select count(*) as cnt from board";
 			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				total = rs.getInt("cnt");
 			}
@@ -202,6 +203,101 @@ public class BoardDAO {
 			}
 			
 			return list;//BoardService로 반환
+		}
+		
+		public int getTotalRecord(String keyField, String keyWord) {
+			
+			String sql = null; //조건에 따라 select문장을 다르게 만들어서 저장할 용도 
+			
+			//조회된 글들의 갯수 저장
+			int total = 0;
+			
+			if( !keyWord.equals("")  ) { //검색어를 입력 했다면?
+				
+				if(keyField.equals("name")) {//검색 기준열이 (name)b_name열이면?
+					
+					sql = "select count(*) as cnt from board "
+						+ " where b_name like '%"+ keyWord + "%'"
+						+ " order by b_idx asc";	
+							
+				}else if(keyField.equals("subject")) {//검색 기준열이 (subject)b_title열이면?
+					
+					sql = "select count(*) as cnt from board "
+							+ " where b_title like '%"+ keyWord + "%'"
+							+ " order by b_idx asc";				
+					
+				}else {//검색 기준열이 (content)b_content열이면?
+					
+					sql = "select count(*) as cnt from board "
+							+ " where b_content like '%"+ keyWord + "%'"
+							+ " order by b_idx asc";				
+					
+				}
+				
+			}else {//검색어를 입력하지 않고 찾기 버튼을 눌렀을때
+				//모든 글 조회
+				//조건 -> b_idx열의 글번호 데이터들을 기준으로 내림차순 정렬 후 조회!
+				sql = "select count(*) as cnt from board order by b_idx asc";
+				
+				//참고. 정렬 조회 -> order by 정렬기준열명  desc(내림차순) 또는 asc(오름차순);
+			}
+			//-----------------------------------------		
+			try {
+				  con = dataSource.getConnection(); //DB의 테이블과 연결 
+				  
+				  pstmt = con.prepareStatement(sql);
+				  
+				  rs = pstmt.executeQuery();
+				  
+				  //조회된 ResultSet의 조회갯수를 한행 얻어 
+				  if(rs.next()) {				  
+					 total = rs.getInt("cnt");
+				  }				
+				
+			} catch (Exception e) {
+				System.out.println("BoardDAO클래스의 getTotalRecord메소드 내부에서 SQL실행 오류:" + e);		
+			} finally {
+				resourceRelease();
+			}		
+			return total;//BoardService로 반환
+		}
+
+		//글을 조회하면 조히수 증가 , 글을 조회
+		public BoardVO boardRead(String b_idx) {
+			BoardVO boardVO = null;
+			String sql;
+			try {
+				  con = dataSource.getConnection(); //DB의 테이블과 연결 
+				  sql = "update board set b_cnt=b_cnt + 1 where b_idx=?";
+				  pstmt = con.prepareStatement(sql);
+				  pstmt.setInt(1, Integer.parseInt(b_idx));
+				  pstmt.executeUpdate();
+				  sql = "select * from board where b_idx = ?";
+				  pstmt = con.prepareStatement(sql);
+				  pstmt.setInt(1, Integer.parseInt(b_idx));
+				  rs = pstmt.executeQuery();
+				  if(rs.next()) {
+					  boardVO = new BoardVO(rs.getInt("b_idx"), 
+			  				   rs.getInt("b_group"), 
+			  				   rs.getInt("b_level"), 
+			  				   rs.getInt("b_cnt"), 
+			  				   rs.getString("b_id"), 
+			  				   rs.getString("b_pw"), 
+			  				   rs.getString("b_name"), 
+			  				   rs.getString("b_email"), 
+			  				   rs.getString("b_title"), 
+			  				   rs.getString("b_content"), 
+			  				   rs.getDate("b_date"));
+	  		           		   
+				  }
+				  
+			}catch (Exception e) {
+				System.out.println("boardRead 오류 : " + e) ;
+			}finally {
+				resourceRelease();
+			}
+			return boardVO;
+			
 		}
 	
 	

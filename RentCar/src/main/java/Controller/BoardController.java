@@ -70,6 +70,9 @@ public class BoardController extends HttpServlet {
 				list = boardService.serviceBoardListALl();
 				count = boardService.getTotalRecord(); // board테이블에 저장된 모든 글 갯수 조회
 				//list.jsp페이징 처리 부분에서 이전 또는 다음 또는 각 페이지 번호를 눌렀을때 요청 받는 값 얻기
+				String nowPage = request.getParameter("nowPage");
+				String nowBlock = request.getParameter("nowBlock");
+				
 				center = "/boarders/list.jsp";
 				//조회된 글 목록을 보여줄 주소
 				request.setAttribute("center", center);
@@ -77,6 +80,8 @@ public class BoardController extends HttpServlet {
 				request.setAttribute("count", count);
 				// 로그인한 회원의 아이디 request에 바인딩
 				request.setAttribute("id", loginId);
+				request.setAttribute("nowPage", nowPage);
+				request.setAttribute("nowBlock", nowBlock);
 				nextPage = main;
 				break;
 			case "/write.bo":
@@ -86,7 +91,7 @@ public class BoardController extends HttpServlet {
 				request.setAttribute("memberVO", memberVO);
 				nextPage = main;
 				break;
-			case "/writePro,bo":
+			case "/writePro.bo":
 				//응답할 값 마련(DB에 새글 정보를 insert한 후 성공하면 추가메시지)
 				//result = 1 -> DB에 새글 정보 추가 성공
 				//result = 0 -> 실패
@@ -100,14 +105,18 @@ public class BoardController extends HttpServlet {
 					out.print(go);
 				}
 				return ;
-				break;
-	case "/seachlist.bo": //검색 기준값과 검색어를 입력해서 검색요청이 들어 왔을때
+			case "/seachlist.bo": //검색 기준값과 검색어를 입력해서 검색요청이 들어 왔을때
 				
 				//부장 호출!
 				//검색기준값과 입력한 검색어가 저장된 request를 전달해  글들을 조회 하게 메소드 호출!
 				list = boardService.serviceBoardList(request);
 				//검색기준열의값과 입력한 검색어를 포함하고 있는 내용의 글들의 갯수 조회하게 메소드 호출!
 				count = boardService.serviceGetTotalRecord(request);
+				nowPage = request.getParameter("nowPage");
+				nowBlock = request.getParameter("nowBlock");
+				
+				request.setAttribute("nowPage", nowPage);
+				request.setAttribute("nowBlock", nowBlock);
 				
 				//중앙 VIEW화면 주소 request에 바인딩
 				request.setAttribute("center", "boarders/list.jsp");
@@ -117,7 +126,18 @@ public class BoardController extends HttpServlet {
 				
 				//메인화면 재요청 주소
 				nextPage = "/CarMain.jsp";
-				
+				break;
+			case "/read.bo": // 조회된 글목록에서 특정글을 클릭해 글 번호를 받아 조회 후 보여주는 요청
+				String b_idx = request.getParameter("b_idx");
+				nowPage = request.getParameter("nowPage");
+				nowBlock = request.getParameter("nowBlock");
+				boardVO = boardService.serviceBoardRead(b_idx);
+				request.setAttribute("center", "boarders/read.jsp");
+				request.setAttribute("boardVO", boardVO);
+				request.setAttribute("nowPage", nowPage);
+				request.setAttribute("nowBlock", nowBlock);
+				request.setAttribute("b_idx", b_idx);
+				nextPage = "/CarMain.jsp";
 				break;
 				default:
 			

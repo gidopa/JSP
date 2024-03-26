@@ -1,11 +1,13 @@
-
 <%@page import="VO.MemberVO"%>
 <%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
 <% 
 	request.setCharacterEncoding("UTF-8");
 	String contextPath = request.getContextPath();
-	//String nowPage = request.getParameter("nowPage");
-	//String nowBlock = request.getParameter("nowBlock"); 
+// 	String nowPage = request.getParameter("nowPage");
+// 	String nowBlock = request.getParameter("nowBlock");
+
+	//조회한 이메일, 이름, 아이디 를 얻기 위해
+	//request에 바인딩된 조회된 정보 얻기 
 	MemberVO vo = (MemberVO)request.getAttribute("memberVO");
 	String email = vo.getEmail();
 	String name = vo.getName();
@@ -25,6 +27,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+
 <title>Insert title here</title>
 </head>
 <body>
@@ -60,9 +63,6 @@
                     <td width="13%" height="29" bgcolor="#e4e4e4" class="text2">
                     	<div align="center">아 이 디</div>
                     </td>
-                    
-                    
-                    
                     <td width="34%" bgcolor="#f5f5f5" style="text-align: left">
                     	<input type="text" name="writer_id" 
                     	size="20" class="text2" value="<%=id%>" readonly/>
@@ -135,12 +135,13 @@
 </form>
 	<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 	
-	 <script type="text/javascript">
+	<script type="text/javascript">
 		
-	 $("#list").click(function(event) {
+	//글목록 눌렀을때 
+		$("#list").click(function(event) {
 			event.preventDefault();
 			//board테이블에 저장된 글을 조회 하는 요청!
-			location.href="<%=contextPath%>/board/list.bo"; 
+			location.href="<%=contextPath%>/board/list.bo?nowBlcok=0&nowPage=0"; 
 		})
 		
 	

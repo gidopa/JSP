@@ -147,7 +147,7 @@
 				</a> <%--예약확인 --%>
 			</td>
 			<td align="center" bgcolor="red" width="20%">
-				<a href="<%=contextPath %>/board/list.bo">
+				<a href="<%=contextPath %>/board/list.bo?nowBlock=0&nowPage=0">
 					<div style="font-size: 2.5rem; color: white;">자유게시판</div>
 				</a> <%--자유게시판 --%>
 			</td>

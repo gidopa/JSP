@@ -3,6 +3,8 @@ package Service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import DAO.BoardDAO;
 import DAO.MemberDAO;
 import VO.BoardVO;
@@ -68,6 +70,13 @@ public class BoardService {
 			return boardDAO.getTotalRecord(request.getParameter("keyField"),
 					                       request.getParameter("keyWord"));
 			
+		}
+
+		public BoardVO serviceBoardRead(String b_idx) {
+			BoardVO boardVO = null;
+			boardVO = boardDAO.boardRead(b_idx);
+			
+			return boardVO;
 		}
 
 	
