@@ -104,6 +104,28 @@ public class BoardService {
 			return res;
 		}
 
+		public void serviceReplyInsertBoard(HttpServletRequest request) {
+			String super_b_idx = request.getParameter("super_b_idx");//부모 글번호
+			String reply_id = request.getParameter("id"); //답변글 작성자 아이디
+			String reply_name = request.getParameter("writer"); //답변글 작성자 이름
+			String reply_email = request.getParameter("email"); //답변글 작성자 이메일			
+			String reply_title = request.getParameter("title"); //답변글 제목
+			String reply_content = request.getParameter("content"); //답변글 내용
+			String reply_pass = request.getParameter("pass"); //답변글 비밀번호
+			
+			//사원 BoardDAO의 메소드를 호출하면서 매개변수로 전달해 작성한 새로운 답변글 내요을 insert시킵니다.
+			boardDAO.replyInsertBoard(super_b_idx,
+										reply_id,
+										reply_name,
+										reply_email,
+										reply_title,
+										reply_content,
+										reply_pass
+									  );
+			
+		
+		}
+
 	
 	
 

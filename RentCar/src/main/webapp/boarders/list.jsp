@@ -110,11 +110,11 @@
 	<td align=center colspan=2>
 		<table border=0 width=100% cellpadding=2 cellspacing=0>
 			<tr align=center bgcolor=#D0D0D0 height=120%>
-				<td> 번호 </td>
-				<td> 제목 </td>
-				<td> 이름 </td>
-				<td> 날짜 </td>
-				<td> 조회수 </td>
+				<td align="left">번호</td>
+				<td align="left">제목</td>
+				<td align="left">이름</td>
+				<td align="left">날짜</td>
+				<td align="left">조회수</td>
 			</tr>
 <%
 	//게시판 board테이블에서 조회된 글이 없다면?
@@ -126,24 +126,48 @@
 <%		 
 	 }else{//게시판 board테이블에 조회된 글이 있다면?(BoardVO객체들이 ArrayList배열에 저장되어 있다면?)
 		 
-		for(int i=beginPerPage;i<(beginPerPage+numPerPage); i++){
-			if(i == totalRecord){
+		for(int cnt=beginPerPage;   cnt<(beginPerPage+numPerPage);   cnt++){
+			
+			if(cnt == totalRecord){
 				break;
 			}
+			  // [ BoardVO, BoardVO, BoardVO, BoardVO, BaordVO, BoardVO, BoardVO ]
+			  //     0           1      2        3         4       5          6
+			  
 			//ArrayList배열에 저장된 BoardVO객체를 얻어 출력 
-			BoardVO vo  = (BoardVO)list.get(i);
+			BoardVO vo  = (BoardVO)list.get(cnt);
+			  
+			  int level	= vo.getB_level();//들여쓰기 정도 레벨 값 (주글 또는 답변글)
 %>			
-			<tr align=center>
-				<td><%=vo.getB_idx()%></td>
-				<td>
-				<!-- 글제목 하나를 클릭했을때 글 번호를 이용해  글 하나 조회하여 보여줌 -->
-				<a href="javascript:fnRead('<%=vo.getB_idx()%>')">
-				<%=vo.getB_title()%>
-				</a>
+			<tr>
+				<td align="left"><%=vo.getB_idx()%></td>
+				<td>								
+<%-- 					<%for(int j=0;  j<level*7;  j++){%> --%>
+<!-- 							&nbsp; -->
+<%-- 					<%}%> --%>
+					<%
+						int width = 0; //답변글에 대한 빈공백이미지의 들여쓰기 너비값이 저장될 변수 
+						//글의 들여쓰기 정도 b_level열의 값이 0보다 크다면?(답글이라면)
+						if(level > 0){
+							
+							width = level * 10;  //<img>태그의 width속성의 값으로 너비 설정
+					%>
+						<img src="<%=contextPath%>/boarders/images/level.gif" width="<%=width%>" height="15">
+						<img src="<%=contextPath%>/boarders/images/re.gif">
+					<%		
+						}
+					%>
+					
+					
+					
+					<%-- 글제목 하나를 클릭했을때 글번호를 이용해 글하나조회하여 보여주자 --%>
+					<a href="javascript:fnRead('<%=vo.getB_idx()%>')">
+						<%=vo.getB_title()%>
+					</a>
 				</td>
-				<td><%=vo.getB_name()%></td>
-				<td><%=vo.getB_date()%></td>
-				<td><%=vo.getB_cnt()%></td>
+				<td align="left"><%=vo.getB_name()%></td>
+				<td align="left"><%=vo.getB_date()%></td>
+				<td align="left"><%=vo.getB_cnt()%></td>
 			</tr>
 <%			
 		}	 
@@ -225,6 +249,7 @@
 	<tr>
 		<td align=center valign=bottom>
 			<select name="keyField" size="1">
+			
 				<option value="name"> 이름
 				<option value="subject"> 제목
 				<option value="content"> 내용

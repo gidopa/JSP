@@ -58,7 +58,7 @@ public class BoardDAO {
 		ArrayList list = new ArrayList();
 		try {
 		con = dataSource.getConnection();
-		String sql = "select * from board";
+		String sql = "select * from board order by b_group asc";
 		pstmt = con.prepareStatement(sql);
 		rs = pstmt.executeQuery();
 		while(rs.next()) {
@@ -110,6 +110,9 @@ public class BoardDAO {
 		try {
 			//DB연결
 			con = dataSource.getConnection();
+			sql = "update board set b_group = b_group + 1";
+			pstmt = con.prepareStatement(sql);
+			pstmt.executeUpdate();
 			
 			//insert SQL문 만들기 
 			sql = "insert into board (b_idx, b_id, b_pw, b_name, b_email, b_title, b_content, b_group,  b_level, b_date, b_cnt) "
@@ -148,26 +151,26 @@ public class BoardDAO {
 					
 					sql = "select * from board "
 						+ " where b_name like '%"+ keyWord + "%'"
-						+ " order by b_idx asc";	
+						+ " order by b_group asc";	
 							
 				}else if(keyField.equals("subject")) {//검색 기준열이 (subject)b_title열이면?
 					
 					sql = "select * from board "
 							+ " where b_title like '%"+ keyWord + "%'"
-							+ " order by b_idx asc";				
+							+ " order by b_group asc";				
 					
 				}else {//검색 기준열이 (content)b_content열이면?
 					
 					sql = "select * from board "
 							+ " where b_content like '%"+ keyWord + "%'"
-							+ " order by b_idx asc";				
+							+ " order by b_group asc";				
 					
 				}
 				
 			}else {//검색어를 입력하지 않고 찾기 버튼을 눌렀을때
 				//모든 글 조회
 				//조건 -> b_idx열의 글번호 데이터들을 기준으로 내림차순 정렬 후 조회!
-				sql = "select * from board order by b_idx asc";
+				sql = "select * from board order by b_group asc";
 				
 				//참고. 정렬 조회 -> order by 정렬기준열명  desc(내림차순) 또는 asc(오름차순);
 			}
@@ -218,26 +221,26 @@ public class BoardDAO {
 					
 					sql = "select count(*) as cnt from board "
 						+ " where b_name like '%"+ keyWord + "%'"
-						+ " order by b_idx asc";	
+						+ " order by b_group asc";	
 							
 				}else if(keyField.equals("subject")) {//검색 기준열이 (subject)b_title열이면?
 					
 					sql = "select count(*) as cnt from board "
 							+ " where b_title like '%"+ keyWord + "%'"
-							+ " order by b_idx asc";				
+							+ " order by b_group asc";				
 					
 				}else {//검색 기준열이 (content)b_content열이면?
 					
 					sql = "select count(*) as cnt from board "
 							+ " where b_content like '%"+ keyWord + "%'"
-							+ " order by b_idx asc";				
+							+ " order by b_group asc";				
 					
 				}
 				
 			}else {//검색어를 입력하지 않고 찾기 버튼을 눌렀을때
 				//모든 글 조회
 				//조건 -> b_idx열의 글번호 데이터들을 기준으로 내림차순 정렬 후 조회!
-				sql = "select count(*) as cnt from board order by b_idx asc";
+				sql = "select count(*) as cnt from board order by b_group asc";
 				
 				//참고. 정렬 조회 -> order by 정렬기준열명  desc(내림차순) 또는 asc(오름차순);
 			}
@@ -304,7 +307,7 @@ public class BoardDAO {
 			boolean result = false;
 			try {
 				con = dataSource.getConnection();
-				String sql = "select * from board where b_idx=? and b_pw=?";
+				String sql = "select * from board where b_idx=? and b_pw=? order by b_idx desc";
 				pstmt = con.prepareStatement(sql);
 				pstmt.setInt(1, Integer.parseInt(b_idx) );
 				pstmt.setString(2, pass);
@@ -357,6 +360,56 @@ public class BoardDAO {
 			resourceRelease();
 		}
 		return res;
+		}
+
+		public void replyInsertBoard(String super_b_idx, String reply_id, String reply_name, String reply_email,
+				String reply_title, String reply_content, String reply_pass) {
+			String sql = null;
+			
+			try {
+					con = dataSource.getConnection();//DB연결
+					
+					//1. 부모글(주글)의 글번호를 이용해 b_group열의 값과 , b_level열의 값을 조회 
+					sql = "select b_group, b_level from board where b_idx=?";
+					pstmt = con.prepareStatement(sql);
+					pstmt.setString(1, super_b_idx); //부모글(주글) 글번호 셋팅 
+					rs = pstmt.executeQuery();
+					rs.next();
+					String b_group = rs.getString("b_group");//주글의 그룹번호
+					String b_level = rs.getString("b_level");//주글의 들여쓰기정도값 
+					
+					//답변글 다는 규칙1.
+					//주글(부모글)의 b_group열의 값보다 큰 값을 가지는 주글이 있다면
+					//주글의 b_group을 1증가한 값으로 수정
+					sql = "update board set b_group = b_group + 1 where b_group > ?";
+					pstmt = con.prepareStatement(sql);
+					pstmt.setString(1, b_group);
+					pstmt.executeUpdate();
+					
+					//답변글 다는 규칙2
+					//-> 답변글을  insert할떄 주글(부모글)의 b_group열의 값에 1더한값으로 insert
+					//답변글 다는 규칙3
+					//-> 답변글을 insert할떄 주글(부모글)의 b_level열의 값에 1더한 값으로 insert
+					//답변글 insert SQL문 만들기
+					sql = "insert into board (b_idx, b_id, b_pw, b_name, b_email, b_title, b_content, b_group,  b_level, b_date, b_cnt) "
+				    + " values(border_b_idx.nextVal,    ?,    ?,      ?,       ?,       ?,         ?,       ?,        ?, sysdate,   0 )";
+					
+					pstmt = con.prepareStatement(sql);
+					pstmt.setString(1, reply_id); //답변글을 작성하는 로그인된 사람의 아이디 
+					pstmt.setString(2, reply_pass);//답글을 작성시 입력했던 답변글의 비밀번호 
+					pstmt.setString(3, reply_name);//답변글 작성하는 사람 이름
+					pstmt.setString(4, reply_email);//답변글 작성하는 사람 이메일주소 
+					pstmt.setString(5, reply_title);//답변글 제목 
+					pstmt.setString(6, reply_content);//답변글의 내용 
+					pstmt.setInt(7, Integer.parseInt(b_group) + 1); //주글의 그룹값에 1더한값 추가 //규칙2.
+					pstmt.setInt(8, Integer.parseInt(b_level) + 1); //주글의 레벨값에 1더한값 추가 //규칙3.
+					pstmt.executeUpdate();
+					
+			} catch (Exception e) {
+				System.out.println("BoardDAO의 replyInsertBoard메소드 내부에서 SQL문 실행 오류:" + e);
+			} finally {
+				resourceRelease();
+			}
 		}
 	
 	

@@ -11,7 +11,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-
+	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 
 	<style>
 /* 		전체 폰트 크기 반응형으로  설정1  */
@@ -46,9 +46,23 @@
 		}
 	
 	</style>
+	<script type="text/javascript">
+		function search(){
+			$.ajax({
+				type:"get",
+				dataType:"text",
+				async:true,
+				url:"<%=request.getContextPath()%>/stock.do",
+				success:function(data){
+					$("#message").append(data);
+				}
+			})
+		}
+	</script>
 
 </head>
-<body> 
+<body onload="search();"> 
+
 <%
 	request.setCharacterEncoding("utf-8");
 	String contextPath = request.getContextPath();
@@ -62,6 +76,9 @@
 				<%-- 메인 로고 이미지  --%>
 					<a href="<%=contextPath %>/Car/Main"><img src="<%=contextPath %>/img/RENT.jpg" width="300" height="80"/></a>
 				</div>
+			</td>
+			<td align="right">
+				<div id="message"></div>
 			</td>
 			<td>
 			
@@ -167,7 +184,7 @@
 	<!-- Optional JavaScript; choose one of the two! -->
 
     <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<!--     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
 
     <!-- Option 2: Separate Popper and Bootstrap JS -->

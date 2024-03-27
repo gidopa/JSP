@@ -166,6 +166,41 @@ public class BoardController extends HttpServlet {
 					out.write("삭제실패");
 					return;
 				}
+				
+			case "/reply.do": //답변글을 작성하는 화면 요청 				
+				//요청한 값 얻기 
+					//주글(부모글)의 글번호얻기 
+					String b_idx__ = request.getParameter("b_idx");
+					//주글(부모글)에 대한 답변글을 작성하는 로그인한 회원의 아이디 얻기
+					String reply_id_ = request.getParameter("id");
+								
+					//부장 BoardService의 메소드를 호출하여 
+					//로그인한 회원이 답변글을 작성할수 있도록하기 위해
+					//로그인한 회원의 아이디를 전달하여 회원정보를 조회 함
+					MemberVO reply_vo = boardService.serviceMemberOne(reply_id_);
+					
+					//주글(부모글) 번호를 request에 바인딩
+					request.setAttribute("b_idx", b_idx__);
+					//조회한 답변글을 작성하는 사람 정보 request에 바인딩
+					request.setAttribute("vo", reply_vo);
+					//중앙 화면(답변글을 작성할수 있는 화면) View 주소 바인딩
+					request.setAttribute("center","boarders/reply.jsp");
+					
+					nextPage = "/CarMain.jsp";
+					break;
+				
+				case "/replyPro.do"://주글에 대한 답변글의 내용을 새롭게 board테이블에 insert추가 요청!
+					
+					//부장 BoardService의 특정메소드를 호출하면서 request객체 주소를 전달해 
+					//답변글 추가 요청합니다
+					boardService.serviceReplyInsertBoard(request);
+					
+					
+					//답변글 추가 성공후 
+					//다시 전체글을 조회해서 보여주기 위해  조회요청주소를 저장
+					nextPage = "/board/list.bo";
+					
+					break;
 				default:
 			
 		}
