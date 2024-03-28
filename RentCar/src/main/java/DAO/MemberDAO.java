@@ -152,7 +152,7 @@ public class MemberDAO {
 	}
 
 	public MemberVO memberOne(String id) {
-		MemberVO vo = null;
+		MemberVO memberVO = null;
 		try {
 		con = dataSource.getConnection();
 		String sql = "select email,name,id from member where id=?";
@@ -160,20 +160,20 @@ public class MemberDAO {
 		pstmt.setString(1, id);
 		rs = pstmt.executeQuery();
 		if(rs.next()) {
-			vo = new MemberVO();
+			memberVO = new MemberVO();
 			String b_email = rs.getString("email");
 			String b_name = rs.getString("name");
 			String b_id = rs.getString("id");
-			vo.setEmail(b_email);
-			vo.setName(b_name);
-			vo.setId(b_id);
+			memberVO.setEmail(b_email);
+			memberVO.setName(b_name);
+			memberVO.setId(b_id);
 		}
 		}catch (Exception e) {
 			System.out.println("memberOne 메소드 오류 : " + e);
 		}finally {
 			resourceRelease();
 		}
-		return vo;
+		return memberVO;
 	}
 
 }
