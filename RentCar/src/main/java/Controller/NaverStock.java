@@ -49,7 +49,7 @@ public class NaverStock extends HttpServlet {
 			StringTokenizer st = new StringTokenizer(text," ");
 			String date = st.nextToken() +  " " + st.nextToken() ;
 			
-			System.out.println(date);
+//			System.out.println(date);
 			System.out.println("----------------------------");
 			String[] res = text.split(" ");
 //			for(String str : res) {
@@ -60,7 +60,7 @@ public class NaverStock extends HttpServlet {
 			// 주가 정보
 			String sign = null;
 			Elements todayList = doc.select(".new_totalinfo dl>dd");
-			System.out.println(todayList);
+//			System.out.println(todayList);
 			String[] info = todayList.get(3).text().split(" ");
 			String stockItem = todayList.get(1).text().split(" ")[0] + " : " + todayList.get(1).text().split(" ")[1];
 			String stockPrice = info[0] + " : " +info[1];

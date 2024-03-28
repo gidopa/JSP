@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <meta charset="UTF-8">
 <title>Insert title here</title>
 	<!-- Required meta tags -->
@@ -153,30 +154,35 @@
 	<%-- 메뉴 만들기 --%>
 	<table width="100%" background="<%=contextPath %>/img/aa.jpg" height="5">
 		<tr>
-			<td align="center" bgcolor="red" width="20%">
+			<td align="center" bgcolor="red" width="16%">
 				<a href="<%=contextPath %>/Car/bb?center=CarReservation.jsp">
 					 <div style="font-size: 2.5rem; color: white;">예약하기</div>
 				</a> <%--예약하기 --%>
 			</td>
-			<td align="center" bgcolor="red" width="20%">
+			<td align="center" bgcolor="red" width="16%">
 				<a href="<%=contextPath %>/Car/cc?center=CarReserveConfirm.jsp">
 					<div style="font-size: 2.5rem; color: white;">예약확인</div>
 				</a> <%--예약확인 --%>
 			</td>
-			<td align="center" bgcolor="red" width="20%">
+			<td align="center" bgcolor="red" width="16%">
 				<a href="<%=contextPath %>/board/list.bo?nowBlock=0&nowPage=0">
 					<div style="font-size: 2.5rem; color: white;">자유게시판</div>
 				</a> <%--자유게시판 --%>
 			</td>
-			<td align="center" bgcolor="red" width="20%">
+			<td align="center" bgcolor="red" width="16%">
 				<a href="<%=contextPath %>/EventBoard/list.bo">
 					<div style="font-size: 2.5rem; color: white;">이벤트정보</div>
 				</a> <%--이벤트정보 --%>
 			</td>
-			<td align="center" bgcolor="red" width="20%">
+			<td align="center" bgcolor="red" width="16%">
 				<a href="<%=contextPath %>/FileBoard/list.bo?nowBlock=0&nowPage=0">
 					<div style="font-size: 2.5rem; color: white;">공지사항</div>
 				</a> <%--공지사항게시판 --%>
+			</td>
+			<td align="center" bgcolor="red" width="16%">
+				<a href="<%=contextPath %>/mail/form">
+					<div style="font-size: 2.5rem; color: white;">메일</div>
+				</a> <%--ㅁ에ㅣㄹ --%>
 			</td>
 			
 		</tr>

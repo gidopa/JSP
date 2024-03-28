@@ -169,7 +169,7 @@
 	<Context path="/webMal" docBase="C:\webShop" reloadable="true"/>
  -->
 
-      <Context docBase="RentCar" path="/RentCar" reloadable="true" source="org.eclipse.jst.jee.server:RentCar"/></Host>
+      <Context docBase="EmailSend" path="/EmailSend" reloadable="true" source="org.eclipse.jst.jee.server:EmailSend"/><Context docBase="RentCar" path="/RentCar" reloadable="true" source="org.eclipse.jst.jee.server:RentCar"/></Host>
     </Engine>
   </Service>
 </Server>
